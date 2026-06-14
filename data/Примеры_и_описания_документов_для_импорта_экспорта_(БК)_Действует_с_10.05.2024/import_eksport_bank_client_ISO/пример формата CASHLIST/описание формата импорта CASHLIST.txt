@@ -1,0 +1,74 @@
+Название формата
+----------------
+CashList
+
+Комментарий
+-----------
+Списки физических лиц на выплату в электронном виде
+
+Описание формата импорта
+------------------------
+DocumentDate         :Date;
+DocumentNumber       :String;
+PayerAccount         :String;
+PayerCurrCode        :String;
+PayDocNum            :String;
+PayDocDate           :Date;
+CashListType         :SmallInt;
+CashType             :String;
+BeneficiarName       :String;
+BeneficiarAccount    :String;
+BeneficiarCurrCode   :String;
+BeneficiarUNP        :String;
+BeneficiarBankMFO    :Integer;
+LinesOnFirstPage     :Integer;
+LinesOnNextPage      :Integer;
+List.Num;
+List.FIO;
+List.Account;
+List.Amount;
+List.DocType;
+List.DocNum;
+List.DocDate;
+List.DocOfficial;
+List.Address;
+AmountTotal          :Money;
+
+Описание действий
+-----------------
+  CashList. %DATECREATE              = %Date;
+  CashList. %TIMECREATE              = %Time;
+  CashList. %TABLEIDENT              = 162;
+  CashList. CLIENT                   = %GetClient;
+  CashList. CUSTID                   = SQL: select CustId from Account where (Account.Account='PayerAccount') and (AccountCurrCode='PayerCurrCode');
+  CashList. DOCUMENTDATE             = DocumentDate;
+  CashList. DOCUMENTNUMBER           = DocumentNumber;
+  CashList. PAYERACCOUNT             = PayerAccount;
+  CashList. PayerCurrCode            = PayerCurrCode;
+  CashList. PayerName                = SQL: select Customer.NameShort from Customer,Account where (Account.Account='PayerAccount') and (Account.Client=Customer.Client) and (Account.CustId=Customer.CustId); 
+  CashList. PayerUNP                 = SQL: select Customer.UNN from Customer,Account where (Account.Account='PayerAccount') and (Account.Client=Customer.Client) and (Account.CustId=Customer.CustId); 
+  CashList. PayerBankMFO             = SQL: select BIC from Account where Account.Account='PayerAccount';
+  CashList. PAYERBANKNAME            = SQL: select BankInt.Name from BankInt,Account where (Account.Account='PayerAccount') and (Account.BIC=BankInt.BICNat);
+  CashList. PayDocNum                = PayDocNum;
+  CashList. PayDocDate               = PayDocDate;
+  CashList. CashListType             = CashListType;
+  CashList. CashType                 = CashType;
+  CashList. BeneficiarName           = BeneficiarName;
+  CashList. BeneficiarACCOUNT        = BeneficiarAccount;
+  CashList. BeneficiarCurrCode       = BeneficiarCurrCode;
+  CashList. BeneficiarUNP            = BeneficiarUNP;
+  CashList. BeneficiarBankMFO        = SQL: select BIC from ViewBankBy where ViewBankBy.Code='BeneficiarBankMFO';
+  CashList. BeneficiarBankNAME       = SQL: select Name from ViewBankBy where ViewBankBy.Code='BeneficiarBankMFO';
+  CashList. LinesOnFirstPage         = LinesOnFirstPage;
+  CashList. LinesOnNextPage          = LinesOnNextPage;
+  CashList. List. Num                = List.Num;
+  CashList. List. FIO                = List.FIO;
+  CashList. List. Account            = List.Account;
+  CashList. List. Amount             = List.Amount;
+  CashList. List. DocType            = List.DocType;
+  CashList. List. DocDesc            = SQL: select DocDesc from ClientDocType where DocType='List.DocType';
+  CashList. List. DocNum             = List.DocNum;
+  CashList. List. DocDate            = List.DocDate;
+  CashList. List. DocOfficial        = List.DocOfficial;
+  CashList. List. Address            = List.Address;
+  CashList. AmountTotal              = AmountTotal;

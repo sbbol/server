@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="CP866" standalone="yes"?>
+<StatementList>
+    <Statements>
+        <Date>04.07.2017</Date>
+        <Time>23:04:45</Time>
+        <Type>┬█╧╚╤╩└</Type>
+        <Account>BY43BPSB30129999999909330000</Account>
+        <UNN>123456789</UNN>
+        <Statement>
+            <Account>BY43BPSB30129999999909330000</Account>
+            <Name>╨╬├└ ╚ ╩╬╧█╥└</Name>
+            <BIC>BPSBBY2X</BIC>
+            <CurrCode>933</CurrCode>
+            <CurrCodeISO>BYN</CurrCodeISO>
+            <OpeningBalance>65189,40</OpeningBalance>
+            <OpeningBalanceNat>65189,40</OpeningBalanceNat>
+            <KursRazn></KursRazn>
+            <DatePrevious>30.06.2017</DatePrevious>
+            <ClosingBalance>69248,34</ClosingBalance>
+            <ClosingBalanceNat>69248,34</ClosingBalanceNat>
+            <DateClosing>04.07.2017</DateClosing>
+            <DebetDocuments>
+                <DocumentsNet>1</DocumentsNet>
+                <Turnover>40,00</Turnover>
+                <DebetTurnoverNat>40,00</DebetTurnoverNat>
+                <Document>
+                    <DocumentNumber>15632</DocumentNumber>
+                    <DocumentType>6</DocumentType>
+                    <Time>04.07.2017 00:00:00</Time>
+                    <OperType>06</OperType>
+                    <Amount>40,00</Amount>
+                    <AmountCurr>40,00</AmountCurr>
+                    <Beneficiar>
+                        <Account>BY11BPSB11111111111111111111</Account>
+                        <BIC>BPSBBY2X</BIC>
+                        <UNN>123456789</UNN>
+                        <NameBIC>╬└╬ "┴╧╤-╤┴┼╨┴└═╩", у ╠шэёъ</NameBIC>
+                        <Name>╬└╬ "┴╧╤-╤┴┼╨┴└═╩"</Name>
+                        <Ground>╬яырЄр єёыєу яю ЄрЁшЇэюьє яырэє, ёюуырёэю фюуютюЁє 700/146272/╥/974/01 юЄ 05.12.2012. ┴хч ═─╤ ёюуырёэю я. 1.37.2. ёЄ.94 ╬ёюсхээющ ўрёЄш ═рыюуютюую ╩юфхъёр".</Ground>
+                    </Beneficiar>
+                </Document>
+            </DebetDocuments>
+            <CreditDocuments>
+                <DocumentsNet>2</DocumentsNet>
+                <Turnover>4098,94</Turnover>
+                <CreditTurnoverNat>4098,94</CreditTurnoverNat>
+                <Document>
+                    <DocumentNumber>4153</DocumentNumber>
+                    <DocumentType>1</DocumentType>
+                    <Time>04.07.2017 14:31:30</Time>
+                    <OperType>01</OperType>
+                    <Amount>1000.00</Amount>
+                    <AmountCurr>1000.00</AmountCurr>
+                    <Payer>
+                        <Account>BY11PJCB11111111111111111111</Account>
+                        <BIC>PJCBBY2X</BIC>
+                        <UNN>123456789</UNN>
+                        <NameBIC>'╧╨╚╬╨┴└═╩' ╬└╬</NameBIC>
+                        <Name>╧╨╚╠┼╨ ╬╬╬</Name>
+                        <Ground>╟└ ╧╨╬─╙╩╓╚▐ ╧╬ ╥╥═ 1111111 ╬╥ 05.05.2017╤╙╠╠└ ═─╤ 166.67, ┬╤┼├╬ ╤ ═─╤ 1000.00</Ground>
+                    </Payer>
+                </Document>
+                <Document>
+                    <DocumentNumber>48410</DocumentNumber>
+                    <DocumentType>1</DocumentType>
+                    <Time>04.07.2017 14:40:39</Time>
+                    <OperType>01</OperType>
+                    <Amount>3098.94</Amount>
+                    <AmountCurr>3098.94</AmountCurr>
+                    <Payer>
+                        <Account>BY11AKBB11111111111111111111</Account>
+                        <BIC>AKBBBY21300</BIC>
+                        <UNN>123456789</UNN>
+                        <NameBIC>╘╚╦╚└╦ N300 '└╤┴ ┴┼╦└╨╙╤┴└═╩',</NameBIC>
+                        <Name>╬└╬ ╧╨╚╠┼╨</Name>
+                        <Ground>╧┼╨┼╫╚╤╦▀┼╥╤▀ ╟└─╬╦╞┼═╬╤╥▄ ╤╬├╦└╤═╬ └╩╥└ ╤┬┼╨╩╚ ┴.═ ╬╥ 28,06,2017</Ground>
+                    </Payer>
+                </Document>
+            </CreditDocuments>
+        </Statement>
+    </Statements>
+</StatementList>

@@ -1,0 +1,40 @@
+#1|PayOrderBy
+27.06.2022
+861
+BY43BPSB30129999999909330000
+BY36PJCB30121111111111111111
+вюярмне опедопхърхе "пнцю х йношрю"
+123456783
+PJCBBY2X
+нюн "опхнпаюмй"
+284,83
+гю онрпеакемхе пнцнб х йношр янцк. днцнбнпю 18 нр 03.06.2018
+21
+1
+
+
+
+
+
+
+18
+03.06.2018
+;NestedTable
+vBeneficiarStatusCode
+INN
+;EndNestedTableRow
+vBeneficiarCountryCode
+112
+;EndNestedTableRow
+vGroundPaymentAttribute
+1
+;EndNestedTableRow
+vGroundCategory
+OTHR
+;EndNestedTableRow
+vGroundCode
+10701
+;EndNestedTable
+;NestedTable
+;EndNestedTable
+;END

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="IncomeReport">
+		<Number>406</Number>
+		<Date>2023-02-01</Date>
+		<PrimaryDocument>
+			<Date>2022-07-01</Date>
+			<Number>134</Number>
+			<Amount>1519000.00</Amount>
+			<PaymentDate>2022-07-01</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>643</Country>
+					<BIC>044030710</BIC>
+					<Name>30101810100000000710 СЕВЕРО-ЗАПАДНЫЙ ФИЛИАЛ АО "БАНК ИНТЕЗА" Г.САНКТ-ПЕТЕРБУРГ, РФ</Name>
+				</Bank>
+				<Name>ИНН1234567891.КПП123456789 ООО ПРИМЕР</Name>
+				<AccountInternational>40702810520090005124</AccountInternational>
+				<Country>643</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА ТОВАРЫ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0110</OperationCode>
+						<Amount>1519000.00</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+            <ContractList>
+				<Contract>
+					<ContractNumber>1233-2222/88888</ContractNumber>
+					<Date>2019-07-31</Date>
+					<Amount>1519000.00</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>0</RegistrationNotRequired>
+					<RegistrationNumber>222216/042001/02212</RegistrationNumber>
+					<Amount>1519000.00</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+</Documents>

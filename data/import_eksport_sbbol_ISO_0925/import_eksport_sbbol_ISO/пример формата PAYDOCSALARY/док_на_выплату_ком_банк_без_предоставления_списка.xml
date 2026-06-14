@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="PayDocSalary">
+		<Number>26</Number>
+		<Date>2023-07-13</Date>
+		<ListProvidedSeparately>1</ListProvidedSeparately>
+		<CashList>
+			<Number>26</Number>
+			<Date>2023-07-11</Date>
+			<Amount>1002.02</Amount>
+			<MarkOfEnrollment>1</MarkOfEnrollment>
+			<CustomerAccount>BY43BPSB30129999999909330000</CustomerAccount>
+			<ContractDate>2019-07-08</ContractDate>
+			<ContractNumber>503-508k</ContractNumber>
+			<PaymentUrgency>21</PaymentUrgency>
+			<PaymentIndication>1</PaymentIndication>
+            <PaymentPurposeCode>30102</PaymentPurposeCode>
+			<PayOutList>
+				<PayOut>
+					<Type>2</Type>
+					<Period>ЗА ПЕРВУЮ ПОЛОВИНУ ИЮЛЯ 2022</Period>
+				</PayOut>
+			</PayOutList>
+		</CashList>
+		<PayBinding>
+			<Number>26</Number>
+			<PN>1</PN>
+			<SVPH>1</SVPH>
+			<VPPS>1</VPPS>
+		</PayBinding>
+	</Document>
+</Documents>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="IncomeReport">
+		<Number>406</Number>
+		<Date>2023-12-26</Date>
+		<PrimaryDocument>
+			<Date>2023-12-20</Date>
+			<Number>23</Number>
+			<Amount>255000.00</Amount>
+			<PaymentDate>2022-12-20</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО 'СБЕР БАНК' Г.МИНСК</Name>
+				</Bank>
+				<Name>ООО ПРИМЕР</Name>
+				<AccountInternational>BY37BPSB30129999999166430000</AccountInternational>
+				<Country>112</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+		    <TransactionTypeCode>23</TransactionTypeCode>
+			<PaymentPurpose>ВЫРУЧКА ОТ РЕАЛИЗАЦИИ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>9100</OperationCode>
+						<Amount>255000.00</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+            <ContractList>
+				<Contract>
+					<ContractNumber>333-22222/888888</ContractNumber>
+					<Date>2023-04-12</Date>
+					<Amount>255000.00</Amount>
+				</Contract>
+			</ContractList>
+		</Details>
+	</Document>
+</Documents>

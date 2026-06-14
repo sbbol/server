@@ -1,0 +1,88 @@
+#|PAYDOCBYCASHLIST
+14.06.2022
+155
+933
+BY43BPSB30129999999909330000
+BY45BPSB38193000000599330000
+нюн "аоя-яаепаюмй" ц.лхмяй
+100219673
+112
+BPSBBY2X
+112
+нюн "аоя-аюмй" ц.лхмяй
+33,21
+гювхякемхе ярпюунбшу бшокюр гю мнъапэ 2016. хбюмнбю рюрэъмю хбюмнбмю
+22
+
+
+
+
+
+
+
+
+
+
+
+
+
+;NestedTable
+;EndNestedTable
+
+
+
+
+
+;NestedTable
+vPaymentCode
+1025611
+;EndNestedTableRow
+vTypeOfPayment
+гювхякемхе ярпюунбшу бшокюр гю мнъапэ 2017
+;EndNestedTableRow
+vPaymentPeriod
+мнъапэ 2017
+;EndNestedTableRow
+vNameOfBaseDoc
+аег днцнбнпю
+;EndNestedTableRow
+vWayToTrans
+0
+;EndNestedTableRow
+vMarkOfEnrollment
+0
+;EndNestedTableRow
+vRecipient
+хбюмнбю рюрэъмю хбюмнбмю
+;EndNestedTableRow
+vRecPlaceOfResidence
+ц.лхмяй, ск. лняйнбяйюъ, д.1
+;EndNestedTableRow
+vTypeOfDocIdentity
+03
+;EndNestedTableRow
+vNameOfDocIdentity
+оюяонпр
+;EndNestedTableRow
+vNumOfDocIdentity
+HB12345678
+;EndNestedTableRow
+vDateOfDocIdentity
+30.07.2014
+;EndNestedTableRow
+vIssuedBy
+лхмяйхи псбд
+;EndNestedTableRow
+vBeneficiarStatusCode
+INN
+;EndNestedTableRow
+vGroundPaymentAttribute
+1
+;EndNestedTableRow
+vGroundCategory
+OTHR
+;EndNestedTableRow
+vGroundCode
+43804
+;EndNestedTable
+;END

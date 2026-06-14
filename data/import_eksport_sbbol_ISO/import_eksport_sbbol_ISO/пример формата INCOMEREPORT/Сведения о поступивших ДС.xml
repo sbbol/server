@@ -1,0 +1,1659 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="IncomeReport">
+		<Number>05FT230125000639</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>05FT230125000639</Number>
+			<Amount>324.05</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>AKBBBY2X</BIC>
+					<Name>ОАО 'АСБ Беларусбанк'</Name>
+				</Bank>
+				<AccountInternational>40702933211050000049</AccountInternational>
+				<Name>ИНН 5024058150 КПП 502401001 ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "АРИСТА"</Name>
+				<Country>643</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>324.05</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>2022/08/05</ContractNumber>
+					<Date>2022-08-05</Date>
+					<Amount>324.05</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>324.05</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>20064</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>20064</Number>
+			<Amount>195.6</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>AKBBBY2X</BIC>
+					<Name>ОАО 'АСБ Беларусбанк'</Name>
+				</Bank>
+				<AccountInternational>BY49AKBB38199900000050000000</AccountInternational>
+				<Name>ИНН 5381099563 AN-TRANS PRZEDSIĘBIORSTWO SPEDYCYJNO-TRANSPORTOWE ANNA BARCZUK</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>195.6</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/24-79П</ContractNumber>
+					<Date>2023-01-24</Date>
+					<Amount>195.6</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>195.6</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>20065</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>20065</Number>
+			<Amount>99</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>AKBBBY2X</BIC>
+					<Name>ОАО 'АСБ Беларусбанк'</Name>
+				</Bank>
+				<AccountInternational>BY49AKBB38199900000050000000</AccountInternational>
+				<Name>ИНН 7231014483 Transport Drogowy Towarowy Andrzej Bączyk</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>99</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ-Р 01/24-83П</ContractNumber>
+					<Date>2023-01-24</Date>
+					<Amount>99</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>99</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>20066</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>20066</Number>
+			<Amount>233.23</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>AKBBBY2X</BIC>
+					<Name>ОАО 'АСБ Беларусбанк'</Name>
+				</Bank>
+				<AccountInternational>BY49AKBB38199900000050000000</AccountInternational>
+				<Name>ИНН 8251822838 AR TRANS Andrzej Redzik</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>233.23</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/24-116П </ContractNumber>
+					<Date>2023-01-24</Date>
+					<Amount>233.23</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>233.23</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>391</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>391</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8212512654 Ring Polska Sp. z o.o.</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-50П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>581</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>581</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8211127003 Joanna Wojtczuk TRADER</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-54П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>967</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>967</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5423448532 ARTA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-59П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1014</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1014</Number>
+			<Amount>257.59</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 6791013136 SATRANS Wieslaw Sawicki</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>257.59</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-60П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>257.59</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>257.59</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1234</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1234</Number>
+			<Amount>32.76</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251645856 Mir - Trans Mirosław Komar</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>32.76</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-61П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>32.76</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>32.76</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1286</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1286</Number>
+			<Amount>223.82</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 7162335007 PAW TRANS Pawel Lubianka</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>223.82</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-62П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>223.82</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>223.82</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1667</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1667</Number>
+			<Amount>99</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 7231014483 Transport Drogowy Towarowy Andrzej Bączyk</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>99</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ-Р 01/25-65П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>99</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>99</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1812</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1812</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251913587 TOM-TRANS Szczygielski Tomasz</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-69П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1866</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1866</Number>
+			<Amount>99</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 6030044985 Dimmex Dmitrij Makarov</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>99</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-70П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>99</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>99</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>1897</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>1897</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8252196900 ELTRANS SP. Z O.O</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-71П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>2114</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>2114</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251354544 Przedsiębiorstwo Handlowo-Transportowe "MAREX" Mariola Michalak</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-79П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>2289</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>2289</Number>
+			<Amount>206.27</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 7981106692 TRANSPORT SAMOCHODOWY S I M KOŚLA SPÓŁKA JAWNA</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>206.27</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-80П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>206.27</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>206.27</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>2777</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>2777</Number>
+			<Amount>99</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 6030044985 Dimmex Dmitrij Makarov</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>99</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-83П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>99</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>99</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>2818</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>2818</Number>
+			<Amount>205.01</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8212456051 "Laurena" Przemysław Nowiński</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>205.01</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-84П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>205.01</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>205.01</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>2887</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>2887</Number>
+			<Amount>99</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 6030044985 Dimmex Dmitrij Makarov</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>99</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-85П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>99</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>99</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3036</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3036</Number>
+			<Amount>152.54</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 6714029704 КПП 671401001 ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ЕВРОСТЭП"</Name>
+				<Country>643</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>152.54</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-87П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>152.54</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>152.54</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3062</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3062</Number>
+			<Amount>216.6</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5381286383 USŁUGI TRANSPORTOWE MIROSŁAW KUSZNIERUK</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>216.6</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-88П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>216.6</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>216.6</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3572</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3572</Number>
+			<Amount>193.08</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251314361 Czubaszek Dariusz. Firma transportowo - handlowa</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>193.08</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-91П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>193.08</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>193.08</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3605</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3605</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8250006901 Mirosław Walo " PIANKA"</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-92П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3637</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3637</Number>
+			<Amount>257.59</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 6791013136 SATRANS Wieslaw Sawicki</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>257.59</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-93П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>257.59</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>257.59</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3862</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3862</Number>
+			<Amount>461.94</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5681573483 MTD MATEUSZ SEROKA</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>461.94</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-97П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>461.94</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>461.94</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3901</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3901</Number>
+			<Amount>129.24</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 7431944962 Tedi Bus Paulina Wojsiat</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>129.24</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-99П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>129.24</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>129.24</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4010</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4010</Number>
+			<Amount>101.94</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5423448532 ARTA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.94</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-102П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.94</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.94</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>3932</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>3932</Number>
+			<Amount>252.89</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5371993647 PPUH Max Z. J. Kalinka</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>252.89</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-103П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>252.89</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>252.89</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4050</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4050</Number>
+			<Amount>252.89</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251990234 ALAN Agnieszka Redzik</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>252.89</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-106П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>252.89</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>252.89</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4270</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4270</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5372217282 Jarotrans Jarosław Muchla</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-113П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4347</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4347</Number>
+			<Amount>275.57</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251990234 ALAN Agnieszka Redzik</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>275.57</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-114П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>275.57</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>275.57</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4396</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4396</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8251767140 MUSTRANS 1 MUSIATOWICZ GRZEGORZ</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-115П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4422</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4422</Number>
+			<Amount>254.23</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8211865988 Transport Drogowy Krasuski Stanisław</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>254.23</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-118П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>254.23</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>254.23</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4441</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4441</Number>
+			<Amount>102.36</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8212091951 Iwona Bajek Iwona Bajek "MIL-MAR"</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>102.36</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-119П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>102.36</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>102.36</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4470</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4470</Number>
+			<Amount>101.52</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 8211691436 Firma Transportowa Borkowski Mariusz</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>101.52</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-122П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>101.52</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>101.52</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+	<Document xsi:type="IncomeReport">
+		<Number>4478</Number>
+		<Date>2023-01-27</Date>
+		<PrimaryDocument>
+			<Date>2023-01-25</Date>
+			<Number>4478</Number>
+			<Amount>256.75</Amount>
+			<PaymentDate>2023-01-25</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BPSBBY2X</BIC>
+					<Name>ОАО "СБЕР БАНК", г Минск</Name>
+				</Bank>
+				<AccountInternational>BY52BPSB10301000093059330000</AccountInternational>
+				<Name>ИНН 5381584844 P.H.U."ALFA-TRANS"</Name>
+				<Country>616</Country>
+			</Contragent>
+			<CustomerAccount>BY91BPSB30129999999906430000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА РАЗМЕЩЕНИЕ ТОВАРОВ НА СКЛАДАХ ВРЕМЕННОГО ХРАНЕНИЯ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0233</OperationCode>
+						<Amount>256.75</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>СВХ 01/25-126П</ContractNumber>
+					<Date>2023-01-25</Date>
+					<Amount>256.75</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>256.75</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+</Documents>

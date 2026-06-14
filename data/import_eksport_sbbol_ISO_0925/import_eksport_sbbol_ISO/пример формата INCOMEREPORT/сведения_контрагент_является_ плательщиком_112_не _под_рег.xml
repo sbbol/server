@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="IncomeReport">
+		<Number>386</Number>
+		<Date>2022-07-15</Date>
+		<PrimaryDocument>
+			<Date>2022-07-05</Date>
+			<Number>23</Number>
+			<Amount>1503.63</Amount>
+			<PaymentDate>2022-07-05</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>112</Country>
+					<BIC>BLBBBY2X</BIC>
+					<Name>ОАО 'БЕЛИНВЕСТБАНК' Г.МИНСК</Name>
+				</Bank>
+				<Name>ООО МЕЖДУНАРОДНАЯ ОРГАНИЗАЦИЯ</Name>
+				<AccountInternational>BY48BLBB30121111111111111111</AccountInternational>
+				<Country>999</Country>
+			</Contragent>
+			<CustomerAccount>BY43BPSB30129999999909330000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА АВИАБИЛЕТЫ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0222</OperationCode>
+						<Amount>1503.63</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>1</IsContragent>
+			</Analitic>
+            <ContractList>
+				<Contract>
+					<ContractNumber>3395</ContractNumber>
+					<Date>2022-07-04</Date>
+					<Amount>1503.63</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>1503.63</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+</Documents>

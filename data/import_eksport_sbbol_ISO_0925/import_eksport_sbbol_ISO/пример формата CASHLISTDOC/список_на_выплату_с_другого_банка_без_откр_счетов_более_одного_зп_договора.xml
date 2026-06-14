@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="CashListDoc">
+		<Number>112</Number>
+		<Date>2025-08-21</Date>
+		<Amount>10623.73</Amount>
+		<MarkOfEnrollment>0</MarkOfEnrollment>
+		<CustomerAccount>BY37PJCB36123102641000000933</CustomerAccount>
+		<CustomerBic>PJCBBY2X</CustomerBic>
+		<ContractDate>2010-05-17</ContractDate>
+		<ContractNumber>1328</ContractNumber>
+		<ContragentAccount>BY47BPSB38193000000339330000</ContragentAccount>
+		<PaymentDocDate>2025-08-21</PaymentDocDate>
+		<PaymentDocNumber>12345</PaymentDocNumber>
+		<PaymentAmount>10623.73</PaymentAmount>
+		<PayOutList>
+			<PayOut>
+				<Type>2</Type>
+				<Period>ЗА АВГУСТ 2023</Period>
+			</PayOut>
+		</PayOutList>
+		<ListOfEmployees>
+			<Employee>
+				<LastName>ИВАНОВ</LastName>
+				<FirstName>ИВАН</FirstName>
+				<MiddleName>ИВАНОВИЧ</MiddleName>
+				<Address>Г.МИНСК ПР.ПОБЕДИТЕЛЕЙ, Д.1, КВ.1</Address>
+				<Amount>10000.00</Amount>
+				<IdentityDocument>
+				    <DocTypeCode>03</DocTypeCode>
+                    <DocNumber>MI0051212</DocNumber>
+                    <DocDate>2000-05-28</DocDate>
+                    <DocOfficials>МОСКОВСКИМ РУВД Г.МИНСКА</DocOfficials>
+				</IdentityDocument>
+			</Employee>
+			<Employee>
+				<LastName>ПЕТРОВ</LastName>
+				<FirstName>ПЁТР</FirstName>
+				<MiddleName>ПЕТРОВИЧ</MiddleName>
+				<Address>Г.МИНСК УЛ.КИРОВА, 125</Address>
+				<Amount>500.23</Amount>
+				<IdentityDocument>
+				    <DocTypeCode>03</DocTypeCode>
+                    <DocNumber>MP0512585</DocNumber>
+                    <DocDate>2020-08-01</DocDate>
+                    <DocOfficials>ОКТЯБРЬСКИМ РУВД Г МИНСКА</DocOfficials>
+				</IdentityDocument>
+			</Employee>
+			<Employee>
+				<LastName>ВОРОБЬЁВ</LastName>
+				<FirstName>АНДРЕЙ</FirstName>
+				<MiddleName>АНДРЕЕВИЧ</MiddleName>
+				<Address>Г.ГОМЕЛЬ УЛ.СОВЕТСКАЯ, Д.6, КВ.56</Address>
+				<IdentityDocument>
+				    <DocTypeCode>03</DocTypeCode>
+                    <DocNumber>HB1234567</DocNumber>
+                    <DocDate>2023-01-25</DocDate>
+                    <DocOfficials>ЦЕНТРАЛЬНЫМ РОВД Г.ГОМЕЛЯ</DocOfficials>
+				</IdentityDocument>
+				<Amount>123.50</Amount>
+			</Employee>
+		</ListOfEmployees>
+	</Document>
+</Documents>

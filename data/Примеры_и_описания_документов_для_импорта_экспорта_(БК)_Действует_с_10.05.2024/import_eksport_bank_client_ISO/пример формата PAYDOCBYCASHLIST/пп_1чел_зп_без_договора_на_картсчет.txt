@@ -1,0 +1,79 @@
+#|PAYDOCBYCASHLIST
+14.06.2022
+150
+933
+BY43BPSB30129999999909330000
+BY45BPSB38193000000599330000
+ĞÅÃÈÎÍÀËÜÍÀß ÄÈĞÅÊÖÈß 300 ÎÀÎ "ÁÏÑ-ÑÁÅĞÁÀÍÊ" Ã.ÃÎÌÅËÜ
+100219673
+112
+BPSBBY2X
+112
+ÎÀÎ "ÁÏÑ-ÁÀÍÊ" Ã.ÌÈÍÑÊ
+502,21
+ÇÀĞÀÁÎÒÍÀß ÏËÀÒÀ ÇÀ ÑÅÍÒßÁĞÜ 2016. ÈÂÀÍÎÂÀ ÒÀÒÜßÍÀ ÈÂÀÍÎÂÍÀ, Ñ×ÅÒ N BY34BPSB3014F000000000111111
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;NestedTable
+;EndNestedTable
+
+
+
+
+
+;NestedTable
+vPaymentCode
+1025206
+;EndNestedTableRow
+vTypeOfPayment
+ÇÀĞÀÁÎÒÍÀß ÏËÀÒÀ ÇÀ ÑÅÍÒßÁĞÜ 2016
+;EndNestedTableRow
+vPaymentPeriod
+ÑÅÍÒßÁĞÜ 2016
+;EndNestedTableRow
+vNameOfBaseDoc
+ÁÅÇ ÄÎÃÎÂÎĞÀ
+;EndNestedTableRow
+vWayToTrans
+0
+;EndNestedTableRow
+vMarkOfEnrollment
+1
+;EndNestedTableRow
+vRecipient
+ÈÂÀÍÎÂÀ ÒÀÒÜßÍÀ ÈÂÀÍÎÂÍÀ
+;EndNestedTableRow
+vAccRecipient
+BY34BPSB3014F000000000111111
+;EndNestedTableRow
+vPBNum
+12
+;EndNestedTableRow
+vPBDate
+30.11.2011
+;EndNestedTableRow
+vBeneficiarStatusCode
+INN
+;EndNestedTableRow
+vGroundPaymentAttribute
+1
+;EndNestedTableRow
+vGroundCategory
+OTHR
+;EndNestedTableRow
+vGroundCode
+30102
+;EndNestedTable
+;END

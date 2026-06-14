@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="IncomeReport">
+		<Number>6578</Number>
+		<Date>2022-07-15</Date>
+		<PrimaryDocument>
+			<Date>2022-07-12</Date>
+			<Number>4774</Number>
+			<Amount>61739.05</Amount>
+			<PaymentDate>2022-07-08</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>156</Country>
+					<BIC>BKCHCNBJS00</BIC>
+					<Name>BANK OF CHINA (SHANGHAI RMB TRADING UNIT)</Name>
+				</Bank>
+				<Name>B00122061400923</Name>
+				<AccountInternational>BY26BPSB15021111111111560000</AccountInternational>
+				<Country>156</Country>
+				<FromOffshore>1</FromOffshore>
+			</Contragent>
+			<CustomerAccount>BY09BPSB30121111111111560000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ВОЗВРАТ СРЕДСТВ ЗА ТОВАР</PaymentPurpose>
+			<PaymentPurposeAdditional>ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ</PaymentPurposeAdditional>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0110</OperationCode>
+						<Amount>61739.05</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>0</IsContragent>
+				<SupplierList>
+					<Supplier>
+						<Name>ZHENJIANG MINGYANG IMPORT AND EXPORT CO., LTD</Name>
+						<Country>156</Country>
+						<FromOffshore>1</FromOffshore>
+						<Amount>61739.05</Amount>
+					</Supplier>
+				</SupplierList>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>1ZM45666</ContractNumber>
+					<Date>2022-03-23</Date>
+					<Amount>61739.05</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>0</RegistrationNotRequired>
+					<RegistrationNumber>222222/042002/05422</RegistrationNumber>
+					<Amount>61739.05</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+</Documents>

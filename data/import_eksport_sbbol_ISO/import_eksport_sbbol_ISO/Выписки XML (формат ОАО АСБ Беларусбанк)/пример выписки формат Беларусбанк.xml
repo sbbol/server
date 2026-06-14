@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="CP866" standalone="yes"?>
+<TURN>
+  <ACCOUNTINFO>
+    <ACCOUNT>BY43BPSB30129999999909330000</ACCOUNT>
+    <CURRENCY Iso="BYN" Code="933" Rate="1"/>
+    <NAME>ООО РОГА И КОПЫТА</NAME>
+    <TYPETURN>ОКОНЧАТЕЛЬНАЯ</TYPETURN>
+    <PERIOD>за 04.07.2017</PERIOD>
+    <INREST nominal="65189,40" equivalent="65189,40"/>
+    <OUTREST nominal="69248,34" equivalent="69248,34"/>
+    <TURNDEB nominal="40" equivalent="40"/>
+    <TURNKRE nominal="4098,94" equivalent="4098,94"/>
+    <CARDRESTS card1="" card2=""/>
+    <LASTOPER>30.06.2017</LASTOPER>
+    <TIMETURN date="04.07.2017" time="23:04:45"/>
+    <TIMEMAKE date="04.07.2017" time="23:06:12"/>
+    <OPERINFO>
+      <OPER>
+        <OPERUID></OPERUID>
+        <DOCN>15632</DOCN>
+        <MFOKORR>BPSBBY2X</MFOKORR>
+        <ACCKORR>BY11BPSB11111111111111111111</ACCKORR>
+        <NAMEKORR>ОАО "БПС-СБЕРБАНК", г Минск</NAMEKORR>
+        <UNPKORR>123456789</UNPKORR>
+        <SUMOPER nd="40" nk="" ed="40" ek=""/>
+        <DETPAY>Оплата услуг по тарифному плану согласно договору ОТ 05.12.2012. Без НДС согласно п. 1.37.2. ст.94 Особенной части Налогового Кодекса".</DETPAY>
+        <RATEINFO Code="933" Rate=""/>
+        <TAX></TAX>
+        <VO>06</VO>
+        <UNP3></UNP3>
+      </OPER>
+      <OPER>
+        <OPERUID></OPERUID>
+        <DOCN>4153</DOCN>
+        <MFOKORR>PJCBBY2X</MFOKORR>
+        <ACCKORR>BY11PJCB11111111111111111111</ACCKORR>
+        <NAMEKORR>ПРИМЕР ООО</NAMEKORR>
+        <UNPKORR>123456789</UNPKORR>
+        <SUMOPER nd="" nk="1000" ed="" ek="1000"/>
+        <DETPAY>ЗА ПРОДУКЦИЮ ПО ТТН 1111111 ОТ 05.05.2017СУММА НДС 166.67, ВСЕГО С НДС 1000.00</DETPAY>
+        <RATEINFO Code="933" Rate=""/>
+        <TAX></TAX>
+        <VO>01</VO>
+        <UNP3></UNP3>
+      </OPER>
+      <OPER>
+        <OPERUID></OPERUID>
+        <DOCN>48410</DOCN>
+        <MFOKORR>AKBBBY21300</MFOKORR>
+        <ACCKORR>BY11AKBB11111111111111111111</ACCKORR>
+        <NAMEKORR>ОАО ПРИМЕР</NAMEKORR>
+        <UNPKORR>123456789</UNPKORR>
+        <SUMOPER nd="" nk="3098.94" ed="" ek="3098.94"/>
+        <DETPAY>ПЕРЕЧИСЛЯЕТСЯ ЗАДОЛЖЕНОСТЬ СОГЛАСНО АКТА СВЕРКИ Б.Н ОТ 28,06,2017</DETPAY>
+        <RATEINFO Code="933" Rate=""/>
+        <TAX></TAX>
+        <VO>01</VO>
+        <UNP3></UNP3>
+      </OPER>
+    </OPERINFO>
+  </ACCOUNTINFO>
+</TURN>

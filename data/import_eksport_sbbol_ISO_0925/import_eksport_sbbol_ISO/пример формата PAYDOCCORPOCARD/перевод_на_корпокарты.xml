@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="PayDocCorpoCard">
+        <Number>123</Number>
+        <Date>2024-11-15</Date>
+        <CashList>
+            <Number>123</Number>
+            <ContragentAccount>BY83BPSB30128888888809330000</ContragentAccount>
+            <CustomerAccount>BY43BPSB30129999999909330000</CustomerAccount>
+            <PaymentUrgency>21</PaymentUrgency>
+            <PaymentIndication>1</PaymentIndication>
+            <PaymentPurposeCode>40101</PaymentPurposeCode>
+            <PaymentPurposeAdditional>ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ</PaymentPurposeAdditional>    
+            <ListOfEmployees>
+                <Employee>
+                    <LastName>ИВАНОВ</LastName>
+                    <FirstName>ИВАН</FirstName>
+                    <MiddleName>ИВАНОВИЧ</MiddleName>
+                    <Account>BY64BPSB30120000000000111111</Account>
+                    <Amount>100.00</Amount>
+                </Employee>
+                <Employee>
+                    <LastName>ПЕТРОВ</LastName>
+                    <FirstName>ПЁТР</FirstName>
+                    <MiddleName>ПЕТРОВИЧ</MiddleName>
+                    <Account>BY83BPSB30120000000000222222</Account>
+                    <Amount>200.23</Amount>
+                </Employee>
+                <Employee>
+                    <LastName>ВОРОБЬЁВ</LastName>
+                    <FirstName>АНДРЕЙ</FirstName>
+                    <MiddleName>АНДРЕЕВИЧ</MiddleName>
+                    <Account>BY05BPSB30120000000000333333</Account>
+                    <Amount>123.50</Amount>
+                </Employee>
+            </ListOfEmployees>
+        </CashList>
+    </Document>
+</Documents>

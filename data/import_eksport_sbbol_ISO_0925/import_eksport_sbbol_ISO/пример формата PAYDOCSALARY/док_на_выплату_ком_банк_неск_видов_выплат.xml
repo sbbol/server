@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="PayDocSalary">
+		<Number>25</Number>
+		<Date>2023-07-13</Date>
+		<CashList>
+			<Number>25</Number>
+			<MarkOfEnrollment>1</MarkOfEnrollment>
+			<CustomerAccount>BY43BPSB30129999999909330000</CustomerAccount>
+			<ContractDate>2019-07-08</ContractDate>
+			<ContractNumber>503-508k</ContractNumber>
+			<PaymentUrgency>21</PaymentUrgency>
+			<PaymentIndication>1</PaymentIndication>
+            <PaymentPurposeCode>30102</PaymentPurposeCode>
+			<PayOutList>
+				<PayOut>
+					<Type>3</Type>
+					<Period>ЗА МАРТ 2022</Period>
+				</PayOut>
+         	                <PayOut>
+					<Type>4</Type>
+					<Period>ЗА МАРТ 2022</Period>
+				</PayOut>
+			</PayOutList>
+			<ListOfEmployees>
+				<Employee>
+					<LastName>ИВАНОВ</LastName>
+					<FirstName>ИВАН</FirstName>
+					<MiddleName>ИВАНОВИЧ</MiddleName>
+					<Account>BY34BPSB3014F000000000111111</Account>
+					<Amount>10000.00</Amount>
+				</Employee>
+				<Employee>
+					<LastName>ПЕТРОВ</LastName>
+					<FirstName>ПЁТР</FirstName>
+					<MiddleName>ПЕТРОВИЧ</MiddleName>
+					<Account>BY53BPSB3014F000000000222222</Account>
+					<Amount>500.23</Amount>
+				</Employee>
+				<Employee>
+					<LastName>ВОРОБЬЁВ</LastName>
+					<FirstName>АНДРЕЙ</FirstName>
+					<MiddleName>АНДРЕЕВИЧ</MiddleName>
+					<Account>BY72BPSB3014F000000000333333</Account>
+					<Amount>123.50</Amount>
+				</Employee>
+			</ListOfEmployees>
+		</CashList>
+		<PayBinding>
+			<Number>25</Number>
+			<PN>1</PN>
+			<SVPH>1</SVPH>
+			<VPPS>1</VPPS>
+		</PayBinding>
+	</Document>
+</Documents>

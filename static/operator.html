@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дэйл — Панель оператора</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f6f7; color: #1f1f22; }
+    header { background: #107F8C; color: white; padding: 16px 24px; }
+    header h1 { font-size: 18px; font-weight: 600; }
+    .layout { display: flex; height: calc(100vh - 56px); }
+    .sidebar { width: 320px; border-right: 1px solid #e0e2e5; background: white; overflow-y: auto; }
+    .conv-item { padding: 14px 16px; border-bottom: 1px solid #f0f1f3; cursor: pointer; }
+    .conv-item:hover, .conv-item.active { background: #e8f5f6; }
+    .conv-item .id { font-size: 11px; color: #888; }
+    .conv-item .user { font-weight: 600; font-size: 14px; }
+    .main { flex: 1; display: flex; flex-direction: column; }
+    .messages { flex: 1; overflow-y: auto; padding: 20px; }
+    .msg { margin-bottom: 12px; max-width: 80%; padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.5; }
+    .msg.user { background: #e8f5f6; margin-right: auto; }
+    .msg.assistant { background: #f0f4f5; border: 1px solid #e0e2e5; margin-left: auto; }
+    .msg.operator { background: #fff3e0; border: 1px solid #ffe082; margin-left: auto; }
+    .msg .role { font-size: 11px; color: #888; margin-bottom: 4px; }
+    .input-area { padding: 16px; background: white; border-top: 1px solid #e0e2e5; display: flex; gap: 8px; }
+    .input-area textarea { flex: 1; border: 1px solid #ccc; border-radius: 8px; padding: 10px; font-size: 14px; resize: none; height: 60px; }
+    .input-area button { background: #107F8C; color: white; border: none; border-radius: 8px; padding: 0 20px; cursor: pointer; font-size: 14px; }
+    .empty { padding: 40px; text-align: center; color: #888; }
+    .refresh { float: right; background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Дэйл — Панель оператора <button class="refresh" onclick="loadConversations()">Обновить</button></h1>
+  </header>
+  <div class="layout">
+    <div class="sidebar" id="sidebar"><div class="empty">Загрузка...</div></div>
+    <div class="main">
+      <div class="messages" id="messages"><div class="empty">Выберите диалог</div></div>
+      <div class="input-area" id="inputArea" style="display:none">
+        <textarea id="replyText" placeholder="Ответ пользователю..."></textarea>
+        <button onclick="sendReply()">Отправить</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const API = '/api/operator';
+    let currentId = null;
+
+    const roleLabels = { user: 'Пользователь', assistant: 'Дэйл', operator: 'Оператор' };
+
+    async function loadConversations() {
+      const res = await fetch(`${API}/conversations`);
+      const data = await res.json();
+      const sidebar = document.getElementById('sidebar');
+      if (!data.conversations.length) {
+        sidebar.innerHTML = '<div class="empty">Нет эскалированных диалогов</div>';
+        return;
+      }
+      sidebar.innerHTML = data.conversations.map(c => `
+        <div class="conv-item ${c.id === currentId ? 'active' : ''}" onclick="selectConversation('${c.id}')">
+          <div class="user">${c.user_id}</div>
+          <div class="id">${c.id.slice(0,8)}... · ${c.updated_at?.slice(0,16)}</div>
+        </div>
+      `).join('');
+    }
+
+    async function selectConversation(id) {
+      currentId = id;
+      document.getElementById('inputArea').style.display = 'flex';
+      const res = await fetch(`${API}/conversations/${id}`);
+      const data = await res.json();
+      const msgs = document.getElementById('messages');
+
+      msgs.innerHTML = data.messages.map(m => `
+        <div class="msg ${m.role}">
+          <div class="role">${roleLabels[m.role] || m.role}</div>
+          ${m.content}
+        </div>
+      `).join('') || '<div class="empty">Нет сообщений</div>';
+      msgs.scrollTop = msgs.scrollHeight;
+      loadConversations();
+    }
+
+    async function sendReply() {
+      const text = document.getElementById('replyText').value.trim();
+      if (!text || !currentId) return;
+      await fetch(`${API}/reply`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({conversation_id: currentId, content: text}),
+      });
+      document.getElementById('replyText').value = '';
+      selectConversation(currentId);
+    }
+
+    loadConversations();
+    setInterval(() => { if (currentId) selectConversation(currentId); else loadConversations(); }, 5000);
+  </script>
+</body>
+</html>

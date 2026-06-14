@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<Documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sber-bank.by/dbo/sbbol ../Import.xsd" xmlns="http://www.sber-bank.by/dbo/sbbol">
+	<Document xsi:type="IncomeReport">
+		<Number>66050</Number>
+		<Date>2022-07-15</Date>
+		<PrimaryDocument>
+			<Date>2022-07-11</Date>
+			<Number>47744</Number>
+			<Amount>100.00</Amount>
+			<PaymentDate>2022-07-11</PaymentDate>
+			<Contragent>
+				<Bank>
+					<Country>840</Country>
+					<BIC>BOFAUS3NXXX</BIC>
+					<Name>BANK OF AMERICA, NEW YORK, USA</Name>
+				</Bank>
+				<Name>BLOOMBERG</Name>
+				<AccountInternational>94017-33396</AccountInternational>
+				<Country>840</Country>
+				<USAState>АЛАБАМА</USAState>
+			</Contragent>
+			<CustomerAccount>BY41BPSB30129999999908400000</CustomerAccount>
+		</PrimaryDocument>
+		<Details>
+			<PaymentPurpose>ЗА УСЛУГУ ДОСТУПА К ИНФОРМАЦИОННЫМ РЕСУРСАМ</PaymentPurpose>
+			<Analitic>
+				<Code2209List>
+					<Code2209>
+						<OperationCode>0494</OperationCode>
+						<Amount>1.02</Amount>
+					</Code2209>
+					<Code2209>
+						<OperationCode>0442</OperationCode>
+						<Amount>98.98</Amount>
+					</Code2209>
+				</Code2209List>
+				<IsContragent>0</IsContragent>
+				<SupplierList>
+					<Supplier>
+						<Name>BLUE YONDER BLUE</Name>
+						<Country>840</Country>
+						<USAState>АЛАБАМА</USAState>
+						<Amount>1.02</Amount>
+					</Supplier>
+					<Supplier>
+						<Name>BLOOMBERG</Name>
+						<Country>840</Country>
+						<USAState>АЛАБАМА</USAState>
+						<Amount>98.98</Amount>
+					</Supplier>
+				</SupplierList>
+			</Analitic>
+			<ContractList>
+				<Contract>
+					<ContractNumber>ИНВОЙС</ContractNumber>
+					<Date>2022-07-01</Date>
+					<Amount>1.02</Amount>
+				</Contract>
+				<Contract>
+					<ContractNumber>ИНВОЙС</ContractNumber>
+					<Date>2022-07-05</Date>
+					<Amount>98.98</Amount>
+				</Contract>
+			</ContractList>
+			<TransactionInfoList>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>1.02</Amount>
+				</TransactionInfo>
+				<TransactionInfo>
+					<RegistrationNotRequired>1</RegistrationNotRequired>
+					<Amount>98.98</Amount>
+				</TransactionInfo>
+			</TransactionInfoList>
+		</Details>
+	</Document>
+</Documents>

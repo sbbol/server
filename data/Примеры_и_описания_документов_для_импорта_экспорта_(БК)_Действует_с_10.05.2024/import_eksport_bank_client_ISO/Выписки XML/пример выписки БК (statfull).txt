@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding="CP866"?>
+<?xml:stylesheet type="text/xsl" ?>
+<Statements>
+<Date>05.07.17</Date>
+<Time>12:08:03</Time>
+<Type>ВЫПИСКА</Type>
+<Account>BY43BPSB30129999999909330000</Account>
+<UNN>172894151</UNN>
+<Statement>
+<Account>BY43BPSB30129999999909330000</Account>
+<Name>ОДО РОГА И КОПЫТА</Name>
+<BIC>BPSBBY2X</BIC>
+<CurrCode>933</CurrCode>
+<OpeningBalance>66387</OpeningBalance>
+<OpeningBalanceBY>66387</OpeningBalanceBY>
+<DatePrevious>04.07.2017</DatePrevious>
+<ClosingBalance>90841</ClosingBalance>
+<ClosingBalanceBY>90841</ClosingBalanceBY>
+<DateClosing></DateClosing>
+<DebetDocuments>
+<DocumentsNet>1</DocumentsNet>
+<Turnover>686</Turnover>
+<Document>
+<DocumentNumber>1537</DocumentNumber>
+<DocumentType>1</DocumentType>
+<OperType>01</OperType>
+<Amount>686</Amount>
+<AmountCurr>686</AmountCurr>
+<Beneficiar>
+<Account>BY03BPSB67001462720149330000</Account>
+<BIC>BPSBBY2X</BIC>
+<UNN>400035044</UNN>
+<NameBIC>ФИЛИАЛ ОАО 'БПС-БАНК' ПО ГОМЕЛЬСКОЙ ОБЛАСТИ Г.ГОМЕЛЬ</NameBIC>
+<Name>Ф-Л ОАО "БПС-БАНК" ПО ГОМ.ОБЛ.Г.ГОМЕЛЬ</Name>
+<Ground>КОМ.ИНОБАНКА ПО ПЛ.ПОР.359 ОТ 18.08.09Г.ДОГ.ТЕК.БАНК СЧЕТА N123 ОТ 16.06.09Г. БЕЗ НДС. П.2.22 СТ. 3 ЗАКОНА РБ "О НДС".</Ground>
+</Beneficiar>
+</Document>
+</DebetDocuments> 
+<CreditDocuments>
+<DocumentsNet>1</DocumentsNet>
+<Turnover>25140</Turnover>
+<Document>
+<DocumentNumber>133158</DocumentNumber>
+<DocumentType>6</DocumentType>
+<OperType>06</OperType>
+<Amount>25140</Amount>
+<AmountCurr>25140</AmountCurr>
+<Payer>
+<Account>BY33AKBB30120830300143000000</Account>
+<BIC>AKBBBY21300</BIC>
+<UNN>400008658</UNN>
+<NameBIC>Ф-Л N 300  ГОМЕЛЬСКОЕ ОБЛ. УПРАВЛЕНИЕ ОАО 'АСБ БЕЛАРУСБАНК' Г.ГОМЕЛЬ</NameBIC>
+<Name>ФИЛИАЛ N 300-ГОМЕЛЬСКОЕ ОУ ОАО "АСБ БЕЛАРУСБАНК"</Name>
+<Ground>ПРИНЯТЫЕ ПЛАТЕЖИ ПЛАТЕЖИ ОТ ФИЗ.ЛИЦ ЗА УСЛУГИ, 1 ПЛАТЕЖ(A,ЕЙ) НА СУММУ 25140 ПРИ ОТСУТСТВИИ ДОГОВОРА МЕЖДУ БАНКОМ И ПОЛУЧАТЕЛЕМ</Ground>
+</Payer>
+</Document>
+</CreditDocuments>
+</Statement>
+
+</Statements>
