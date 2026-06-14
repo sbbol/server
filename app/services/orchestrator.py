@@ -4,7 +4,7 @@ from app.intent.classifier import classify
 from app.intent.context_router import try_prefill_from_context
 from app.intent.form_hints import extract_form_hints, merge_hints
 from app.intent.models import MatchedIntent, OrchestratorResult, ResponseMode
-from app.intent.text_utils import extract_account_hint, is_faq_question
+from app.intent.text_utils import account_matches, extract_account_hint, is_faq_question
 from app.services.response_builder import (
     build_account_response,
     build_card_block_response,
@@ -52,7 +52,9 @@ class ChatOrchestrator:
             text = self._run_data(executor, primary, message, account_hint)
             return OrchestratorResult(text=text, actions=executor.pending_actions)
 
-        if primary.response_mode == ResponseMode.NAVIGATE and not is_faq_question(message):
+        if primary.response_mode == ResponseMode.NAVIGATE and (
+            not is_faq_question(message) or primary.guided
+        ):
             text = self._run_navigate(executor, primary, message, history)
             return OrchestratorResult(text=text, actions=executor.pending_actions)
 
@@ -176,7 +178,11 @@ class ChatOrchestrator:
                     form_data = merge_hints(form_data, extract_form_hints(msg["content"], screen))
 
         nav_args: dict = {"screen": screen, "label": label, **args}
-        if account_id is not None:
+        if screen in ("account_view", "account_requisites"):
+            nav_args["account_id"] = self._resolve_account_id(
+                executor.user_id, message, account_id,
+            )
+        elif account_id is not None:
             nav_args["account_id"] = account_id
         if form_data:
             nav_args["form_data"] = form_data
@@ -207,3 +213,19 @@ class ChatOrchestrator:
             elif intent.response_mode == ResponseMode.DATA:
                 notes.append(self._run_data(executor, intent, message, hint))
         return "\n".join(notes)
+
+    def _resolve_account_id(
+        self,
+        user_id: str,
+        message: str,
+        fallback: str | None = None,
+    ) -> str:
+        hint = extract_account_hint(message)
+        accounts = self.db.get_accounts(user_id)
+        if hint:
+            matched = [a for a in accounts if account_matches(a["number"], hint)]
+            if matched:
+                return matched[0]["id"]
+        if fallback:
+            return fallback
+        return accounts[0]["id"] if accounts else "2"

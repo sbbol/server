@@ -82,6 +82,8 @@ class ChatService:
         yield self._sse({"type": "status", "text": LOADING_PHRASES[1]})
 
         rag_chunks = hybrid_search(message)
+        if not rag_chunks:
+            yield self._sse({"type": "status", "text": "База знаний недоступна — отвечаю без документов."})
         rag_context = format_context(rag_chunks)
         plan = self.orchestrator.plan(message, user_id, rag_context, history)
 
@@ -133,6 +135,7 @@ class ChatService:
             return
 
         full_response = sanitize_llm_output(raw_response, has_nav_button=has_nav)
+        yield self._sse({"type": "replace", "text": full_response})
         self.db.add_message(conv_id, "assistant", full_response, {"actions": plan.actions})
         yield "data: [DONE]\n\n"
 

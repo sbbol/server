@@ -135,16 +135,55 @@ def extract_employee_hints(message: str) -> dict[str, str]:
     return hints
 
 
+def extract_card_form_hints(message: str) -> dict[str, str]:
+    raw = message
+    hints: dict[str, str] = {}
+
+    phone = re.search(r"(\+375[\d\s()-]{8,})", raw.replace(" ", ""))
+    if phone:
+        hints["phone"] = re.sub(r"\s+", "", phone.group(1))
+
+    org = re.search(
+        r"(?:организац\w*|компани\w*|на\s+карт\w*)\s+([A-Za-z][A-Za-z0-9\s]{1,30})",
+        raw,
+        re.I,
+    )
+    if org:
+        hints["orgName"] = org.group(1).strip().upper()
+
+    contract = re.search(r"контракт\w*\s*(?:№|#)?\s*(\d[\d/-]*)", raw, re.I)
+    if contract:
+        hints["contractNumber"] = contract.group(1).strip()
+
+    acct = extract_account_hint(message)
+    if acct:
+        hints["account"] = acct
+
+    return hints
+
+
+def extract_service_package_hints(message: str) -> dict[str, str]:
+    hints = extract_employee_hints(message)
+    if hints.get("firstName") and hints.get("lastName"):
+        hints["directorName"] = f"{hints['lastName']} {hints['firstName']}"
+        if hints.get("middleName"):
+            hints["directorName"] += f" {hints['middleName']}"
+    if hints.get("position"):
+        hints["directorPosition"] = hints["position"]
+    return hints
+
+
 def extract_form_hints(message: str, screen: str) -> dict[str, str]:
     if screen == "statement":
         return extract_statement_hints(message)
     if screen == "employees":
         return extract_employee_hints(message)
     if screen in ("instant_payment", "payment_order"):
-        hints = extract_payment_hints(message)
-        if screen == "statement":
-            hints.update(extract_statement_hints(message))
-        return hints
+        return extract_payment_hints(message)
+    if screen in ("business_card_form", "corporate_card_form"):
+        return extract_card_form_hints(message)
+    if screen == "service_package_form":
+        return extract_service_package_hints(message)
     return {}
 
 

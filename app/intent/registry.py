@@ -67,6 +67,14 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         none_of=("банк", "оператор", "поддержк"),
     ),
     IntentRule(
+        id="list_drafts",
+        response_mode=ResponseMode.DATA,
+        priority=87,
+        tool="get_user_drafts",
+        any_of=("черновик", "незаверш", "бросил", "не законч"),
+        none_of=("продолж", "открыть черновик", "дозаполн"),
+    ),
+    IntentRule(
         id="continue_draft",
         response_mode=ResponseMode.DATA,
         priority=86,
@@ -183,7 +191,7 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         response_mode=ResponseMode.NAVIGATE,
         priority=63,
         tool="navigate",
-        tool_args={"screen": "account_requisites", "label": "Показать реквизиты", "account_id": "2"},
+        tool_args={"screen": "account_requisites", "label": "Показать реквизиты"},
         any_of=("реквизит", "модальн"),
     ),
     IntentRule(
@@ -191,7 +199,7 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         response_mode=ResponseMode.NAVIGATE,
         priority=62,
         tool="navigate",
-        tool_args={"screen": "account_view", "label": "Открыть счёт", "account_id": "2"},
+        tool_args={"screen": "account_view", "label": "Открыть счёт"},
         any_of=(
             "просмотреть сч", "операции по сч", "деньги и событ",
             "страниц", "перейти", "переход", "данные о счет",
