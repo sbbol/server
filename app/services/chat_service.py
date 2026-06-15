@@ -60,6 +60,9 @@ class ChatService:
         if escalation_reason:
             yield self._sse({"type": "status", "text": LOADING_PHRASES[2]})
             self.db.escalate_conversation(conv_id)
+            from app.services.conversation_slots import ConversationSlots
+
+            self.orchestrator.slots_manager.save(conv_id, ConversationSlots())
             response = (
                 "Передал ваш диалог сотруднику банка — он скоро подключится. "
                 "Можете продолжать писать сюда, ответы оператора появятся в чате."

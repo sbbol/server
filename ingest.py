@@ -6,6 +6,7 @@
     python ingest.py
 """
 
+import re
 import uuid
 from pathlib import Path
 
@@ -28,7 +29,14 @@ EMBEDDER = SentenceTransformer(EMBEDDING_MODEL)
 VECTOR_DIM = EMBEDDER.get_embedding_dimension()
 CLIENT = QdrantClient(url=QDRANT_URL)
 
-CHUNKER = SemanticChunker(
+FAQ_CHUNKER = SemanticChunker(
+    embedding_model=EMBEDDING_MODEL,
+    threshold=0.5,
+    chunk_size=400,
+    min_sentences=1,
+)
+
+DEFAULT_CHUNKER = SemanticChunker(
     embedding_model=EMBEDDING_MODEL,
     threshold=0.5,
     chunk_size=1024,
@@ -36,6 +44,11 @@ CHUNKER = SemanticChunker(
 )
 
 BATCH_SIZE = 32
+
+QA_PATTERN = re.compile(
+    r"##\s*Вопрос:\s*(.+?)\s*\n+\*\*Ответ:\*\*\s*(.+?)(?=\n##|\Z)",
+    re.DOTALL | re.IGNORECASE,
+)
 
 
 def load_documents() -> list[dict]:
@@ -58,9 +71,56 @@ def load_documents() -> list[dict]:
                 text = file_path.read_text(encoding="utf-8", errors="replace")
                 title = file_path.stem.strip()
                 source = str(file_path.relative_to(base))
-                docs.append({"path": file_path, "title": title, "text": text, "source": source})
+                doc_type = _detect_doc_type(file_path, text)
+                docs.append({
+                    "path": file_path,
+                    "title": title,
+                    "text": text,
+                    "source": source,
+                    "doc_type": doc_type,
+                })
 
     return docs
+
+
+def _detect_doc_type(file_path: Path, text: str) -> str:
+    rel = str(file_path).lower()
+    if "/faq/" in rel.replace("\\", "/") or rel.endswith("faq"):
+        return "faq"
+    if "инструк" in text.lower()[:500] or "порядок" in text.lower()[:500]:
+        return "procedure"
+    return "product"
+
+
+def _extract_keywords(text: str, title: str) -> list[str]:
+    keywords: set[str] = {title.lower()}
+    kw_match = re.search(r"##\s*Ключевые слова\s*\n(.+)", text, re.I)
+    if kw_match:
+        for part in re.split(r"[,;\n]", kw_match.group(1)):
+            word = part.strip().lower()
+            if word:
+                keywords.add(word)
+    for token in re.findall(r"[а-яa-z]{4,}", title.lower()):
+        keywords.add(token)
+    return sorted(keywords)[:20]
+
+
+def _faq_qa_chunks(text: str) -> list[str]:
+    """Разбивает FAQ-документ на пары «Вопрос / Ответ»."""
+    pairs = QA_PATTERN.findall(text)
+    if pairs:
+        return [f"Вопрос: {q.strip()}\nОтвет: {a.strip()}" for q, a in pairs]
+    return []
+
+
+def chunk_document(doc: dict) -> list[str]:
+    doc_type = doc["doc_type"]
+    if doc_type == "faq":
+        qa_chunks = _faq_qa_chunks(doc["text"])
+        if qa_chunks:
+            return qa_chunks
+        return [c.text for c in FAQ_CHUNKER.chunk(doc["text"])]
+    return [c.text for c in DEFAULT_CHUNKER.chunk(doc["text"])]
 
 
 def recreate_collection() -> None:
@@ -84,15 +144,18 @@ def main() -> None:
 
     all_chunks: list[dict] = []
     for doc in raw_docs:
-        chunks = CHUNKER.chunk(doc["text"])
-        print(f"  {doc['title']}: {len(chunks)} чанков")
-        for idx, chunk in enumerate(chunks):
+        chunks = chunk_document(doc)
+        keywords = _extract_keywords(doc["text"], doc["title"])
+        print(f"  {doc['title']} ({doc['doc_type']}): {len(chunks)} чанков")
+        for idx, chunk_text in enumerate(chunks):
             all_chunks.append({
                 "id": uuid.uuid4().hex,
-                "text": chunk.text,
+                "text": chunk_text,
                 "source": doc["source"],
                 "title": doc["title"],
                 "chunk_index": idx,
+                "doc_type": doc["doc_type"],
+                "keywords": keywords,
             })
 
     print(f"\nВсего чанков: {len(all_chunks)}")
@@ -112,6 +175,8 @@ def main() -> None:
                     "source": chunk["source"],
                     "title": chunk["title"],
                     "chunk_index": chunk["chunk_index"],
+                    "doc_type": chunk["doc_type"],
+                    "keywords": chunk["keywords"],
                 },
             )
             for j, chunk in enumerate(batch)
@@ -120,7 +185,7 @@ def main() -> None:
         print(f"  Qdrant: {min(i + BATCH_SIZE, len(all_chunks))}/{len(all_chunks)}")
 
     bm25_store.build(all_chunks)
-    print(f"  BM25: индекс сохранён")
+    print("  BM25: индекс сохранён")
 
     count = CLIENT.count(collection_name=COLLECTION_NAME).count
     print(f"\n✓ Готово. Коллекция '{COLLECTION_NAME}': {count} точек")

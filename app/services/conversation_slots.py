@@ -6,8 +6,9 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from app.intent.classifier import classify
 from app.intent.form_hints import extract_form_hints, extract_payment_hints, merge_hints
-from app.intent.text_utils import account_matches, normalize
+from app.intent.text_utils import normalize
 
 
 INTENT_SCREENS: dict[str, str] = {
@@ -20,6 +21,25 @@ INTENT_SCREENS: dict[str, str] = {
     "service_package": "service_package_form",
     "card_block": "card_management",
 }
+
+INTENT_DOMAINS: dict[str, str] = {
+    "payment_create": "payment",
+    "payment_order": "payment",
+    "statements_filter": "statement",
+    "requisites": "account",
+    "account_view": "account",
+    "account_balance": "account",
+    "employees": "employees",
+    "service_package": "service_package",
+    "card_block": "cards",
+}
+
+DOMAIN_TOPIC_WORDS = (
+    "эцп", "подпис", "ключ", "сертификат", "потеря", "утеря", "восстанов", "блокиров",
+    "сотрудник", "работник", "пользовател", "человек", "команд", "карт", "заблок", "разблок",
+    "реквизит", "выписк", "тариф", "пакет услуг", "баланс", "остаток",
+    "перевод", "платеж", "платёж", "поручен", "мгновен",
+)
 
 
 @dataclass
@@ -51,12 +71,6 @@ _CANCEL_PHRASES = (
     "отмен", "стоп", "не буду", "передумал",
 )
 
-_NEW_TOPIC_WORDS = (
-    "сотрудник", "работник", "пользовател", "человек", "команд", "карт", "заблок", "разблок",
-    "реквизит", "выписк", "тариф", "пакет услуг", "баланс", "остаток",
-    "перевод", "платеж", "платёж", "поручен", "мгновен",
-)
-
 
 def is_cancel_message(message: str) -> bool:
     text = normalize(message)
@@ -67,15 +81,57 @@ def is_cancel_message(message: str) -> bool:
     return any(p in text for p in _CANCEL_PHRASES if len(p) > 3)
 
 
+def _intent_domain(intent_id: str) -> str | None:
+    return INTENT_DOMAINS.get(intent_id)
+
+
+def _semantic_topic_shift(message: str, slots: ConversationSlots) -> bool:
+    if not slots.active_intent:
+        return False
+    current_domain = _intent_domain(slots.active_intent)
+    if not current_domain:
+        return False
+    matches = classify(message)
+    if not matches or matches[0].intent_id == "faq":
+        return False
+    new_domain = _intent_domain(matches[0].intent_id)
+    if not new_domain:
+        return False
+    return new_domain != current_domain
+
+
 def is_new_topic_message(message: str, slots: ConversationSlots | None = None) -> bool:
     text = normalize(message)
+
     if slots and slots.active_intent in ("payment_create", "payment_order"):
         if any(w in text for w in ("назначен", "получател", "сумм", "руб", "контрагент", "перевод")):
             return False
+
     if slots and slots.active_intent == "statements_filter":
         if any(w in text for w in ("выписк", "период", "вчера", "месяц", "счет", "счёт")):
             return False
-    return any(w in text for w in _NEW_TOPIC_WORDS)
+
+    if any(w in text for w in DOMAIN_TOPIC_WORDS):
+        if slots and slots.active_intent:
+            if _semantic_topic_shift(message, slots):
+                return True
+            active_words = {
+                "payment_create": ("плат", "перевод", "оплат", "получател", "сумм", "руб", "byn"),
+                "payment_order": ("плат", "поручен", "налог", "бюджет"),
+                "statements_filter": ("выписк", "период", "расход"),
+                "account_balance": ("баланс", "остаток", "счет", "счёт"),
+                "account_view": ("счет", "счёт", "операци", "просмотр"),
+                "employees": ("сотрудник", "работник", "пользовател", "человек"),
+                "card_block": ("карт", "заблок", "блокиров"),
+            }.get(slots.active_intent, ())
+            if active_words and any(w in text for w in active_words):
+                return False
+        return True
+
+    if slots and slots.active_intent and _semantic_topic_shift(message, slots):
+        return True
+
+    return False
 
 
 def should_inherit_intent(message: str, slots: ConversationSlots) -> bool:
@@ -85,25 +141,35 @@ def should_inherit_intent(message: str, slots: ConversationSlots) -> bool:
     text = normalize(message)
     if is_cancel_message(message) or is_new_topic_message(message, slots):
         return False
+
     if slots.active_intent not in ("payment_create", "payment_order") and extract_payment_hints(message):
         return False
+
     if slots.active_intent != "employees" and any(
         w in text for w in ("сотрудник", "человек", "работник", "пользовател")
     ):
         return False
+
     if len(text) > 80:
         return False
+
+    screen = slots.target_screen or INTENT_SCREENS.get(slots.active_intent, "instant_payment")
+    if extract_form_hints(message, screen):
+        return True
+
     follow_patterns = (
         r"^\d", r"^на\s", r"^за\s", r"^вчера", r"^сегодня",
         r"^[a-z]{3,}\d", r"^\d{4}$", r"^by",
     )
     if any(re.search(p, text) for p in follow_patterns):
         return True
+
     if len(text.split()) <= 6 and not any(w in text for w in (
         "создай", "открой", "покажи", "перейди", "как ", "что ",
         "добав", "заблок", "закаж", "смен", "помен",
     )):
         return True
+
     return False
 
 
@@ -184,6 +250,8 @@ def resolve_statement_account_id(
     account: dict,
 ) -> dict[str, str]:
     """Заменяет IBAN в form_data.account на account ID."""
+    from app.intent.text_utils import account_matches
+
     updated = dict(form_data)
     acct_val = updated.get("account")
     if acct_val and acct_val != "all":

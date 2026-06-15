@@ -20,6 +20,42 @@ logger = logging.getLogger(__name__)
 _embedder: SentenceTransformer | None = None
 _qdrant: QdrantClient | None = None
 
+QUERY_EXPANSIONS: dict[str, tuple[str, ...]] = {
+    "карт": ("бизнес-карта", "корпоративная карта", "банковская карта"),
+    "эцп": ("электронная подпись", "ключ", "носитель", "утеря", "восстановление"),
+    "потерял": ("утеря", "поломка"),
+    "потеря": ("утеря", "поломка"),
+}
+
+
+def expand_query(query: str) -> str:
+    normalized = query.lower()
+    extras: list[str] = []
+    for key, synonyms in QUERY_EXPANSIONS.items():
+        if key in normalized:
+            extras.extend(synonyms)
+    if not extras:
+        return query
+    return f"{query} {' '.join(extras)}"
+
+
+def _filter_irrelevant_chunks(query: str, chunks: list[dict]) -> list[dict]:
+    """Отсекает чанки про ключи ЭЦП при запросе о банковских картах."""
+    normalized = query.lower()
+    if "карт" not in normalized:
+        return chunks
+    if any(t in normalized for t in ("эцп", "подпис", "ключ", "сертификат")):
+        return chunks
+    filtered = []
+    for chunk in chunks:
+        text = (chunk.get("text") or chunk.get("content") or "").lower()
+        if "карт" in text and "ключ" in text and "эцп" in text:
+            continue
+        if "карт" in text and "ключ" in text and "носител" in text:
+            continue
+        filtered.append(chunk)
+    return filtered or chunks
+
 
 def _get_embedder() -> SentenceTransformer:
     global _embedder
@@ -88,18 +124,24 @@ def _rrf_fusion(vector_hits: list[dict], bm25_hits: list[dict], top_k: int) -> l
 
 
 def hybrid_search(query: str, top_k: int = HYBRID_TOP_K) -> list[dict]:
-    vector_hits = _vector_search(query, top_k)
+    expanded = expand_query(query)
+    vector_hits = _vector_search(expanded, top_k)
     bm25_hits: list[dict] = []
     if bm25_store.is_ready:
-        bm25_hits = bm25_store.search(query, top_k)
+        bm25_hits = bm25_store.search(expanded, top_k)
     else:
         logger.warning("BM25 index not ready — keyword search skipped")
 
     if vector_hits and bm25_hits:
-        return _rrf_fusion(vector_hits, bm25_hits, top_k)
-    if not vector_hits and not bm25_hits:
+        results = _rrf_fusion(vector_hits, bm25_hits, top_k)
+    else:
+        results = vector_hits or bm25_hits
+
+    if not results:
         logger.warning("Hybrid search returned no results for query: %s", query[:80])
-    return vector_hits or bm25_hits
+        return []
+
+    return _filter_irrelevant_chunks(query, results)
 
 
 def format_context(chunks: list[dict]) -> str:

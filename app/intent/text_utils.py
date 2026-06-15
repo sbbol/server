@@ -93,18 +93,58 @@ def is_question_about_facts(text: str) -> bool:
     )) or fuzzy_word_match(text, ("сколько", "скажи", "скажите"))
 
 
+FAQ_INFO_PATTERNS = (
+    "какие", "какой", "какая", "что делать", "что такое", "чем отлича",
+    "можно ли", "нужно ли", "расскаж", "объясни", "инструк", "порядок",
+    "почему", "зачем", "как ", "как?", "что значит",
+)
+
+ECP_FAQ_TOPICS = (
+    "эцп", "подпис", "ключ", "сертификат", "потер", "утер", "восстанов", "clientsign",
+)
+
+FAQ_ACTION_COMMANDS = (
+    "создай плат", "создать плат", "создай платеж", "создать платеж",
+    "открой выписк", "открыть выписк", "заблокируй карт", "заблокировать карт",
+)
+
+
+def _is_balance_fact_query(normalized: str) -> bool:
+    """«Сколько на счёте» — инструмент, не FAQ."""
+    if not contains_substring(normalized, ("сколько", "скаж", "скок")):
+        return False
+    if contains_substring(normalized, ("стоит", "стоимость", "цена", "тариф")):
+        return False
+    return contains_substring(normalized, (
+        "баланс", "остаток", "счет", "счете", "счёте", "на сч", "сч ", "деньг", "средств",
+    ))
+
+
 def is_faq_question(text: str) -> bool:
     """Инструкция / определение — нужен RAG + LLM."""
     normalized = normalize(text)
+
+    if any(cmd in normalized for cmd in FAQ_ACTION_COMMANDS):
+        return False
+
+    if _is_balance_fact_query(normalized):
+        return False
+
     if is_tariff_info_question(normalized):
         return True
-    if not contains_substring(normalized, (
-        "как ", "как?", "что такое", "что значит", "почему", "зачем",
-        "объясни", "расскаж", "инструк", "порядок",
-    )):
+
+    if contains_substring(normalized, ECP_FAQ_TOPICS):
+        if not contains_substring(normalized, ("создай", "сделай", "открой", "заблокир", "оформ")):
+            return True
+
+    if not contains_substring(normalized, FAQ_INFO_PATTERNS):
         return False
-    if is_question_about_facts(normalized) and not contains_substring(normalized, ("как ", "как?")):
+
+    if is_question_about_facts(normalized) and not contains_substring(
+        normalized, ("как ", "как?", "какие", "какой", "какая"),
+    ):
         return False
+
     return True
 
 

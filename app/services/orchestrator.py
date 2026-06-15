@@ -1,27 +1,20 @@
-"""Оркестратор: classify → tools → response strategy."""
+"""Оркестратор: route → tools → response strategy."""
 
-import json
-import time
-from pathlib import Path
+import logging
 
-from app.intent.classifier import classify
 from app.intent.context_router import try_prefill_from_context
-from app.intent.form_hints import extract_form_hints, extract_statement_hints, merge_hints
+from app.intent.form_hints import extract_statement_hints, merge_hints
 from app.intent.models import MatchedIntent, OrchestratorResult, ResponseMode
+from app.intent.router import route_message
 from app.intent.text_utils import (
     account_matches,
     extract_account_hint,
-    is_faq_question,
-    is_tariff_info_question,
     normalize,
     resolve_account,
 )
 from app.services.conversation_slots import (
     ConversationSlots,
     ConversationSlotsManager,
-    is_cancel_message,
-    is_follow_up_message,
-    is_new_topic_message,
     merge_message_hints,
     payment_ready,
     set_active_intent,
@@ -39,27 +32,10 @@ from app.services.response_builder import (
 from app.storage.database import Database
 from app.tools.executor import ToolExecutor
 
+logger = logging.getLogger(__name__)
+
 ACCOUNT_SCREENS = frozenset({"account_view", "account_requisites", "statement"})
-
-_DBG_LOG = Path(__file__).resolve().parent.parent.parent / "debug-1344f1.log"
-
-
-def _dbg(location: str, message: str, data: dict, hypothesis_id: str) -> None:
-    # #region agent log
-    try:
-        payload = {
-            "sessionId": "1344f1",
-            "location": location,
-            "message": message,
-            "data": data,
-            "hypothesisId": hypothesis_id,
-            "timestamp": int(time.time() * 1000),
-        }
-        with _DBG_LOG.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(payload, ensure_ascii=False) + "\n")
-    except Exception:
-        pass
-    # #endregion
+NAV_CONFIDENCE_THRESHOLD = 0.85
 
 
 class ChatOrchestrator:
@@ -81,94 +57,53 @@ class ChatOrchestrator:
         executor = ToolExecutor(self.db, user_id)
         accounts = self.db.get_accounts(user_id)
 
-        # #region agent log
-        _dbg(
-            "orchestrator.py:plan:entry",
-            "plan_start",
-            {
-                "message": message[:120],
-                "active_intent": slots.active_intent,
-                "target_screen": slots.target_screen,
-                "form_data_keys": list(slots.form_data.keys()),
-                "form_data": {k: str(v)[:40] for k, v in slots.form_data.items()},
+        decision = route_message(message, history, slots)
+        logger.info(
+            "route_decision mode=%s confidence=%.2f reason=%s",
+            decision.mode,
+            decision.confidence,
+            decision.reason,
+            extra={
+                "route_decision": {
+                    "mode": decision.mode,
+                    "confidence": decision.confidence,
+                    "reason": decision.reason,
+                    "active_intent": slots.active_intent,
+                },
             },
-            "B",
         )
-        # #endregion
 
-        if is_tariff_info_question(normalize(message)):
-            return OrchestratorResult(text="", actions=[], use_llm=True, llm_context=rag_context), slots
-
-        if is_cancel_message(message):
-            # #region agent log
-            _dbg(
-                "orchestrator.py:plan:cancel",
-                "slots_reset",
-                {"prev_intent": slots.active_intent, "prev_keys": list(slots.form_data.keys())},
-                "C",
-            )
-            # #endregion
-            slots = ConversationSlots()
-            return OrchestratorResult(
-                text="Хорошо, отменил предыдущий запрос. Чем ещё могу помочь?",
-                actions=[],
-            ), slots
-
-        if is_new_topic_message(message, slots) and slots.form_data:
-            # #region agent log
-            _dbg(
-                "orchestrator.py:plan:new_topic",
-                "slots_reset_on_topic_change",
-                {"prev_intent": slots.active_intent, "prev_keys": list(slots.form_data.keys())},
-                "B",
-            )
-            # #endregion
+        if decision.reset_slots:
+            if decision.reason == "cancel_message":
+                return OrchestratorResult(
+                    text="Хорошо, отменил предыдущий запрос. Чем ещё могу помочь?",
+                    actions=[],
+                ), ConversationSlots(last_card_intent=slots.last_card_intent)
             slots = ConversationSlots(last_card_intent=slots.last_card_intent)
 
-        follow_up = is_follow_up_message(message, slots) and bool(slots.active_intent)
-        # #region agent log
-        _dbg(
-            "orchestrator.py:plan:follow_up",
-            "follow_up_check",
-            {"follow_up": follow_up, "active_intent": slots.active_intent},
-            "C",
-        )
-        # #endregion
-        if follow_up:
+        if decision.mode == "FAQ":
+            return OrchestratorResult(
+                text="",
+                actions=[],
+                use_llm=True,
+                llm_context=rag_context,
+            ), slots
+
+        if decision.mode == "ESCALATE":
+            return OrchestratorResult(
+                text="",
+                actions=[{"type": "escalate", "reason": decision.reason}],
+            ), ConversationSlots()
+
+        follow_up = bool(slots.active_intent) and decision.reason not in ("topic_shift", "topic_shift_faq")
+        if follow_up and slots.active_intent:
             slots = merge_message_hints(slots, message, slots.target_screen, history)
 
         prefill_ctx = try_prefill_from_context(message, history, user_id, self.db, slots)
-        # #region agent log
-        _dbg(
-            "orchestrator.py:plan:prefill",
-            "prefill_result",
-            {
-                "prefill_screen": prefill_ctx[0] if prefill_ctx else None,
-                "prefill_keys": list(prefill_ctx[1].keys()) if prefill_ctx else [],
-                "is_faq": is_faq_question(message),
-            },
-            "A",
-        )
-        # #endregion
-        if prefill_ctx and not is_faq_question(message):
+        if prefill_ctx and decision.mode == "TOOL":
             screen, form_data, label = prefill_ctx
-            prev_keys = list(slots.form_data.keys())
             set_active_intent(slots, _screen_to_intent(screen), screen)
             slots.form_data = merge_hints(slots.form_data, form_data)
-            # #region agent log
-            _dbg(
-                "orchestrator.py:plan:prefill_merge",
-                "prefill_merge",
-                {
-                    "screen": screen,
-                    "prev_keys": prev_keys,
-                    "new_keys": list(form_data.keys()),
-                    "merged_keys": list(slots.form_data.keys()),
-                    "merged": {k: str(v)[:40] for k, v in slots.form_data.items()},
-                },
-                "B",
-            )
-            # #endregion
 
             if screen == "statement":
                 resolved = self._resolve_for_screen(user_id, message, history, accounts, require_account=True)
@@ -188,20 +123,8 @@ class ChatOrchestrator:
             )
             return OrchestratorResult(text=text, actions=executor.pending_actions), slots
 
-        intents = classify(message)
+        intents = decision.intents
         primary = intents[0]
-        # #region agent log
-        _dbg(
-            "orchestrator.py:plan:classify",
-            "classify_result",
-            {
-                "primary_intent": primary.intent_id,
-                "primary_mode": primary.response_mode.value,
-                "top3": [(i.intent_id, round(i.score, 2)) for i in intents[:3]],
-            },
-            "E",
-        )
-        # #endregion
 
         if primary.response_mode == ResponseMode.PERMISSION:
             return OrchestratorResult(
@@ -215,15 +138,23 @@ class ChatOrchestrator:
             )
             return OrchestratorResult(text=text, actions=actions or executor.pending_actions), slots
 
-        if primary.response_mode == ResponseMode.NAVIGATE and (
-            not is_faq_question(message) or primary.guided
-        ):
+        if primary.response_mode == ResponseMode.NAVIGATE and primary.score >= NAV_CONFIDENCE_THRESHOLD:
             text = self._run_navigate(
                 executor, primary, message, history, user_id, accounts, slots, conversation_id,
             )
             return OrchestratorResult(text=text, actions=executor.pending_actions), slots
 
-        tool_notes = self._run_secondary_tools(intents[1:], executor, message, history, user_id, accounts, slots, conversation_id)
+        tool_notes = self._run_secondary_tools(
+            intents[1:],
+            executor,
+            message,
+            history,
+            user_id,
+            accounts,
+            slots,
+            conversation_id,
+            min_score=NAV_CONFIDENCE_THRESHOLD,
+        )
         llm_context = rag_context
         if tool_notes:
             llm_context += f"\n\nДополнительно:\n{tool_notes}"
@@ -333,6 +264,8 @@ class ChatOrchestrator:
             return build_drafts_response(drafts), executor.pending_actions
 
         if intent.tool == "continue_draft":
+            from app.intent.form_hints import extract_form_hints
+
             drafts = self.db.get_drafts(executor.user_id)
             if not drafts:
                 return "Незавершённых черновиков нет.", executor.pending_actions
@@ -477,9 +410,12 @@ class ChatOrchestrator:
         accounts: list[dict],
         slots: ConversationSlots,
         conversation_id: str | None,
+        min_score: float = 0.0,
     ) -> str:
         notes: list[str] = []
         for intent in intents:
+            if intent.score < min_score:
+                continue
             if intent.response_mode == ResponseMode.NAVIGATE:
                 notes.append(self._run_navigate(
                     executor, intent, message, history, user_id, accounts, slots, conversation_id,

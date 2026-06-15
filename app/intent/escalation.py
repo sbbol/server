@@ -31,6 +31,11 @@ AGGRESSIVE_PATTERNS = (
     "сука", "нахер", "пошёл", "убью",
 )
 
+EMOTIONAL_DISTRESS_PATTERNS = (
+    "не могу больше", "в отчаян", "всё пропало", "все пропало", "кошмар",
+    "ужас", "паник", "истерик", "не выдерж", "с ума схож",
+)
+
 
 def is_employee_management(message: str) -> bool:
     text = normalize(message)
@@ -48,6 +53,9 @@ def should_escalate_to_operator(message: str) -> str | None:
 
     if any(p in text for p in AGGRESSIVE_PATTERNS):
         return "Агрессивное поведение пользователя"
+
+    if any(p in text for p in EMOTIONAL_DISTRESS_PATTERNS):
+        return "Эмоциональный срыв пользователя"
 
     if is_employee_management(message):
         return None
