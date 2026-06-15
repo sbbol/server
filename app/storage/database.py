@@ -35,6 +35,7 @@ class Database:
                     user_id TEXT NOT NULL,
                     escalated INTEGER DEFAULT 0,
                     operator_active INTEGER DEFAULT 0,
+                    metadata TEXT DEFAULT '{}',
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
@@ -121,6 +122,36 @@ class Database:
                 );
             """)
             self._seed_banking_data(conn)
+            self._migrate_schema(conn)
+
+    def _migrate_schema(self, conn: sqlite3.Connection) -> None:
+        cols = {row[1] for row in conn.execute("PRAGMA table_info(conversations)").fetchall()}
+        if "metadata" not in cols:
+            conn.execute("ALTER TABLE conversations ADD COLUMN metadata TEXT DEFAULT '{}'")
+
+    def get_conversation_slots(self, conversation_id: str) -> dict:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT metadata FROM conversations WHERE id = ?",
+                (conversation_id,),
+            ).fetchone()
+            if not row:
+                return {}
+            meta = json.loads(row["metadata"] or "{}")
+            return meta.get("slots", {})
+
+    def set_conversation_slots(self, conversation_id: str, slots: dict) -> None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT metadata FROM conversations WHERE id = ?",
+                (conversation_id,),
+            ).fetchone()
+            meta = json.loads(row["metadata"] or "{}") if row else {}
+            meta["slots"] = slots
+            conn.execute(
+                "UPDATE conversations SET metadata = ?, updated_at = ? WHERE id = ?",
+                (json.dumps(meta, ensure_ascii=False), _now(), conversation_id),
+            )
 
     # --- Conversations ---
 
@@ -273,7 +304,6 @@ class Database:
             ).fetchone()
             return bool(row and row["escalated"])
 
-    # --- Banking data ---
 
     def _seed_banking_data(self, conn: sqlite3.Connection) -> None:
         row = conn.execute("SELECT COUNT(*) AS cnt FROM accounts").fetchone()

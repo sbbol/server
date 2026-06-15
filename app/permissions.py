@@ -2,7 +2,7 @@
 
 from app.config import DEFAULT_USER_ID
 
-# Действия, которые Дэйл может предложить через deep link
+# Действия, которые Дейл может предложить через deep link
 ACTION_PERMISSIONS: dict[str, dict[str, bool]] = {
     DEFAULT_USER_ID: {
         "view_accounts": True,

@@ -60,11 +60,11 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         tool="navigate",
         tool_args={"screen": "employees", "label": "Добавить сотрудника"},
         any_of=(
-            "сотрудник", "добавить сотруд", "новый сотрудник",
+            "сотрудник", "добавить сотруд", "добавь сотруд", "новый сотрудник",
             "создать пользовател", "пользователя создать", "новый пользовател",
-            "добавить человек", "человека для компани", "работник",
+            "добавить человек", "добавь человек", "человека в команд", "человека для компани", "работник",
         ),
-        none_of=("банк", "оператор", "поддержк"),
+        none_of=("банк", "оператор", "поддержк", "карт", "бизнес", "корпоратив"),
     ),
     IntentRule(
         id="list_drafts",
@@ -96,8 +96,12 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         response_mode=ResponseMode.NAVIGATE,
         priority=73,
         tool="navigate",
-        tool_args={"screen": "statement", "label": "Сформировать выписку"},
-        any_of=("остаток посмотреть", "посмотреть остаток", "где остаток", "где просмотреть остат"),
+        tool_args={"screen": "account_view", "label": "Просмотреть"},
+        any_of=(
+            "остаток посмотреть", "посмотреть остаток", "где остаток", "где просмотреть остат",
+            "просмотреть", "открой экран просмотр", "детализация по счет",
+        ),
+        none_of=("выписк", "скачать", "сформир"),
     ),
     IntentRule(
         id="block_card",
@@ -110,7 +114,7 @@ INTENT_RULES: tuple[IntentRule, ...] = (
     IntentRule(
         id="nav_corporate_card",
         response_mode=ResponseMode.NAVIGATE,
-        priority=71,
+        priority=89,
         tool="navigate",
         tool_args={"screen": "corporate_card_form", "label": "Заказать корпоративную карту"},
         any_of=("корпоративн", "корпокарт"),
@@ -119,10 +123,11 @@ INTENT_RULES: tuple[IntentRule, ...] = (
     IntentRule(
         id="nav_business_card",
         response_mode=ResponseMode.NAVIGATE,
-        priority=70,
+        priority=88,
         tool="navigate",
         tool_args={"screen": "business_card_form", "label": "Заказать бизнес-карту"},
-        any_of=("бизнес карт", "бизнескарт"),
+        any_of=("бизнес карт", "бизнескарт", "создай бизнес", "создать бизнес"),
+        none_of=("сотрудник", "пользовател", "работник"),
     ),
     IntentRule(
         id="nav_order_card",
@@ -154,7 +159,7 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         tool_args={"screen": "statement", "label": "Сформировать выписку"},
         guided=True,
         any_of=("выписк", "скачать выписк", "получить выписк", "сформир"),
-        none_of=("сколько", "баланс", "остаток", "продолж"),
+        none_of=("сколько", "баланс", "остаток", "продолж", "просмотреть", "просмотр"),
     ),
     IntentRule(
         id="nav_instant_payment",
@@ -184,7 +189,8 @@ INTENT_RULES: tuple[IntentRule, ...] = (
         tool="navigate",
         tool_args={"screen": "service_package_form", "label": "Сменить пакет услуг"},
         guided=True,
-        any_of=("тариф", "пакет услуг", "сменить пакет", "выбрать пакет", "подключить услуг", "подключить пакет"),
+        any_of=("сменить пакет", "выбрать пакет", "подключить услуг", "подключить пакет", "сменить тариф", "подключить тариф"),
+        none_of=("какие", "расскаж", "что такое", "объясни", "про тариф", "есть ли"),
     ),
     IntentRule(
         id="nav_requisites",
@@ -197,13 +203,14 @@ INTENT_RULES: tuple[IntentRule, ...] = (
     IntentRule(
         id="nav_account_view",
         response_mode=ResponseMode.NAVIGATE,
-        priority=62,
+        priority=72,
         tool="navigate",
-        tool_args={"screen": "account_view", "label": "Открыть счёт"},
+        tool_args={"screen": "account_view", "label": "Просмотреть"},
         any_of=(
             "просмотреть сч", "операции по сч", "деньги и событ",
             "страниц", "перейти", "переход", "данные о счет",
+            "открой экран", "детализация по счет",
         ),
-        none_of=("сколько", "баланс", "остаток", "реквизит"),
+        none_of=("сколько", "баланс", "остаток", "реквизит", "выписк"),
     ),
 )

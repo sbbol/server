@@ -29,7 +29,9 @@ class ToolExecutor:
     def _tool_navigate_to_screen(self, args: dict) -> str:
         screen = args.get("screen", "")
         label = args.get("label", "Перейти")
-        account_id = args.get("account_id", "2")
+        account_id = args.get("account_id")
+        if not account_id and screen in ("account_view", "account_requisites"):
+            return "Для перехода укажите счёт."
         extra_params = dict(args.get("params") or {})
         form_data = args.get("form_data") or {}
 
@@ -41,7 +43,11 @@ class ToolExecutor:
         if not check_permission(self.user_id, permission):
             return permission_denied_message(permission)
 
-        route = screen_config["route"].replace("{account_id}", str(account_id))
+        route = screen_config["route"]
+        if "{account_id}" in route:
+            if not account_id:
+                return "Для перехода укажите счёт."
+            route = route.replace("{account_id}", str(account_id))
         params = {**(screen_config.get("params") or {}), **extra_params}
 
         action: dict = {

@@ -4,10 +4,26 @@ import re
 
 from app.intent.text_utils import extract_account_hint, normalize
 
+_EMPLOYEE_SKIP_WORDS = (
+    "карт", "тариф", "выписк", "плат", "руб", "byn", "счет", "счёт", "баланс",
+    "остаток", "реквизит", "поручен", "мгновен",
+)
+
+_EMAIL_RE = re.compile(r"[\w.-]+@[\w.-]+\.\w+")
+
 
 def _extract_quoted(text: str) -> str | None:
     m = re.search(r'["«]([^"»]{2,80})["»]', text)
     return m.group(1).strip() if m else None
+
+
+def _looks_like_amount(text: str) -> bool:
+    return bool(re.search(r"\d[\d\s]*(?:[.,]\d{1,2})?\s*(?:руб|р\b|byn|бел)", text))
+
+
+def _should_skip_employee_parse(text: str) -> bool:
+    normalized = normalize(text)
+    return any(w in normalized for w in _EMPLOYEE_SKIP_WORDS)
 
 
 def extract_payment_hints(message: str) -> dict[str, str]:
@@ -15,7 +31,6 @@ def extract_payment_hints(message: str) -> dict[str, str]:
     text = normalize(message)
     hints: dict[str, str] = {}
 
-    # Сумма: 100 рублей, 1000 BYN
     amount = re.search(
         r"сумм\w*\s*(\d[\d\s]*(?:[.,]\d{1,2})?)\s*(?:руб|р\b|byn|бел\s*руб)?",
         text,
@@ -27,46 +42,63 @@ def extract_payment_hints(message: str) -> dict[str, str]:
         )
     if amount:
         val = amount.group(1).replace(" ", "").replace(",", ".")
-        hints["amount"] = f"{val} BYN" if "руб" in text or "р " in text or text.endswith(" р") else val
+        if "byn" in text or "бел" in text:
+            hints["amount"] = f"{val} BYN"
+        elif "руб" in text or "р " in text or text.endswith(" р"):
+            hints["amount"] = f"{val} RUB"
+        else:
+            hints["amount"] = val
 
-    # Номер счёта получателя: ABC123, в кавычках
-    acct = re.search(r"номер\s+счет\w*\s+[\"«]?([a-z0-9]{4,20})", text)
-    if acct:
-        hints["recipient"] = acct.group(1).upper()
+    acct_patterns = [
+        r"(?:на\s+)?счет\w*\s+([a-z0-9]{3,20})",
+        r"на\s+([a-z0-9]{3,20})\b",
+        r"получател\w*\s+([a-z0-9]{3,20})",
+        r"номер\s+счет\w*\s+[\"«]?([a-z0-9]{4,20})",
+    ]
+    for pat in acct_patterns:
+        acct = re.search(pat, text)
+        if acct:
+            candidate = acct.group(1).upper()
+            if candidate.isdigit() and len(candidate) == 4:
+                continue
+            if not candidate.isdigit() or len(candidate) >= 4:
+                hints["recipient"] = candidate
+                break
+
     quoted = _extract_quoted(raw)
     if quoted and not hints.get("recipient"):
         if re.match(r"^[a-z0-9]{4,}$", quoted, re.I):
             hints["recipient"] = quoted.upper()
-        elif "назначен" not in text[: text.find(quoted.lower()) if quoted.lower() in text else 0]:
-            pass
 
-    # Контрагента / получателя Вася
     recipient = re.search(
-        r"(?:контрагент\w*|получател\w*|на\s+)([а-яa-z][а-яa-z\s]{1,30}?)(?:\s+на\s+\d|\s*,|\s*$)",
+        r"(?:контрагент\w*\s+|получател\w*\s+|оплат\w+\s+)([а-яa-z][а-яa-z]{1,20})\b",
         text,
     )
     if recipient and "recipient" not in hints:
         name = recipient.group(1).strip()
-        if name not in ("счет", "счета", "счёт"):
+        if name not in ("счет", "счета", "счёт", "руб", "рублей") and not name.isdigit():
+            if not _looks_like_amount(name):
+                hints["recipient"] = name.title()
+
+    name_after = re.search(
+        r"(?<![а-яa-z])(\d[\d\s]*(?:[.,]\d{1,2})?\s*(?:руб|р\b|byn)?)\s+([а-яa-z]{2,20})(?:у|а|е|ю|ом|ем)?\b",
+        text,
+    )
+    if name_after and "recipient" not in hints:
+        name = name_after.group(2)
+        if name not in ("рублей", "руб", "контрагенту", "контрагента", "контрагент"):
             hints["recipient"] = name.title()
 
-    # Назначение
-    purpose = re.search(
-        r"назначен\w*\s*[-–:]\s*([^.\n]{1,80})",
-        raw,
-        re.I,
-    )
+    purpose = re.search(r"назначен\w*\s*[-–:]\s*([^.\n]{1,80})", raw, re.I)
     if purpose:
         hints["purpose"] = purpose.group(1).strip().rstrip(",")
     elif quoted and re.search(r"назначен", raw, re.I):
         hints["purpose"] = quoted
 
-    # «назначение "Для Андрея"»
     purpose_q = re.search(r'назначен\w*\s+["«]([^"»]+)["»]', raw, re.I)
     if purpose_q:
         hints["purpose"] = purpose_q.group(1).strip()
 
-    # Дата
     if "сегодня" in text:
         hints["payment_date"] = "today"
     elif "вчера" in text:
@@ -75,7 +107,7 @@ def extract_payment_hints(message: str) -> dict[str, str]:
     return hints
 
 
-def extract_statement_hints(message: str) -> dict[str, str]:
+def extract_statement_hints(message: str, account_id: str | None = None) -> dict[str, str]:
     text = normalize(message)
     hints: dict[str, str] = {}
 
@@ -93,42 +125,60 @@ def extract_statement_hints(message: str) -> dict[str, str]:
     elif "недел" in text:
         hints["period"] = "last_week"
 
-    acct = extract_account_hint(message)
-    if acct:
-        hints["account"] = acct
+    if account_id:
+        hints["account"] = account_id
+    else:
+        acct = extract_account_hint(message)
+        if acct:
+            hints["account"] = acct
 
     return hints
 
 
 def extract_employee_hints(message: str) -> dict[str, str]:
     raw = message
+    text = normalize(message)
     hints: dict[str, str] = {}
+
+    email = _EMAIL_RE.search(raw)
+    if email:
+        hints["email"] = email.group(0)
+
+    if _should_skip_employee_parse(message):
+        return hints
 
     phone = re.search(r"(\+375\d{9})", raw.replace(" ", ""))
     if phone:
         hints["phone"] = phone.group(1)
 
-    parts = [p.strip() for p in re.split(r"[,;]", raw) if p.strip()]
-    for part in parts:
-        compact = part.replace(" ", "").replace("-", "")
-        if re.match(r"^\+?\d", compact):
-            continue
-        words = part.split()
-        if len(words) >= 2 and all(w[0].isalpha() for w in words[:2]):
-            if not hints.get("firstName"):
-                hints["firstName"] = words[0].capitalize()
-                hints["lastName"] = words[1].capitalize()
-                if len(words) >= 3:
-                    hints["middleName"] = words[2].capitalize()
-        elif len(words) == 1 and len(part) >= 3 and not hints.get("position"):
-            hints["position"] = part
+    fio_match = re.search(
+        r"\b([А-ЯA-Z][а-яa-z]+)\s+([А-ЯA-Z][а-яa-z]+)(?:\s+([А-ЯA-Z][а-яa-z]+))?\b(?:\s*,\s*([а-яa-z][а-яa-z\s-]{2,40}))?",
+        raw,
+    )
+    if fio_match:
+        hints["lastName"] = fio_match.group(1).capitalize()
+        hints["firstName"] = fio_match.group(2).capitalize()
+        if fio_match.group(3):
+            hints["middleName"] = fio_match.group(3).capitalize()
+        if fio_match.group(4):
+            hints["position"] = fio_match.group(4).strip().capitalize()
+
+    pos_match = re.search(
+        r"(?:должност\w*\s*[-–:]?\s*|,\s*)([а-яa-z][а-яa-z\s-]{2,40})",
+        raw,
+        re.I,
+    )
+    if pos_match:
+        pos = pos_match.group(1).strip().rstrip(".")
+        if pos.lower() not in ("email", "телефон"):
+            hints["position"] = pos.capitalize() if pos.islower() else pos
 
     name_match = re.search(
         r"сотрудник\w*\s+([A-Za-zА-Яа-яё]+)\s+([A-Za-zА-Яа-яё]+)",
         raw,
         re.I,
     )
-    if name_match:
+    if name_match and not hints.get("firstName"):
         hints["firstName"] = name_match.group(1).capitalize()
         hints["lastName"] = name_match.group(2).capitalize()
 
@@ -163,13 +213,22 @@ def extract_card_form_hints(message: str) -> dict[str, str]:
 
 
 def extract_service_package_hints(message: str) -> dict[str, str]:
-    hints = extract_employee_hints(message)
-    if hints.get("firstName") and hints.get("lastName"):
-        hints["directorName"] = f"{hints['lastName']} {hints['firstName']}"
-        if hints.get("middleName"):
-            hints["directorName"] += f" {hints['middleName']}"
-    if hints.get("position"):
-        hints["directorPosition"] = hints["position"]
+    """Только явные данные директора — без employee-парсера."""
+    hints: dict[str, str] = {}
+    raw = message
+
+    director = re.search(
+        r"(?:директор\w*|руководител\w*)\s+([А-ЯA-Z][а-яa-z]+\s+[А-ЯA-Z][а-яa-z]+(?:\s+[А-ЯA-Z][а-яa-z]+)?)",
+        raw,
+        re.I,
+    )
+    if director:
+        hints["directorName"] = director.group(1).strip()
+
+    package = re.search(r"(?:пакет|тариф)\s+[\"«]?([^\"»\n,]{2,40})", raw, re.I)
+    if package:
+        hints["packageName"] = package.group(1).strip()
+
     return hints
 
 
@@ -190,5 +249,10 @@ def extract_form_hints(message: str, screen: str) -> dict[str, str]:
 def merge_hints(*dicts: dict[str, str]) -> dict[str, str]:
     merged: dict[str, str] = {}
     for d in dicts:
-        merged.update({k: v for k, v in d.items() if v})
+        for k, v in d.items():
+            if not v:
+                continue
+            if k == "recipient" and _looks_like_amount(v):
+                continue
+            merged[k] = v
     return merged

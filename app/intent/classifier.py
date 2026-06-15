@@ -6,6 +6,7 @@ from app.intent.text_utils import (
     contains_substring,
     extract_account_hint,
     fuzzy_word_match,
+    is_tariff_faq_question,
     normalize,
 )
 
@@ -46,6 +47,14 @@ def _score_rule(text: str, rule: IntentRule) -> float:
 
 def classify(message: str) -> list[MatchedIntent]:
     text = normalize(message)
+
+    if is_tariff_faq_question(message):
+        return [MatchedIntent(
+            intent_id="faq",
+            response_mode=ResponseMode.FAQ,
+            score=0.0,
+        )]
+
     account_hint = extract_account_hint(message)
 
     matches: list[MatchedIntent] = []

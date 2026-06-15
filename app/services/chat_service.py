@@ -1,4 +1,4 @@
-"""Сервис чата с Дэйлом."""
+"""Сервис чата с Дейлом."""
 
 import json
 from typing import AsyncGenerator
@@ -22,7 +22,7 @@ FAQ_PROMPT = """{system}
 {history}
 
 Пользователь: {query}
-Дэйл:"""
+Дейл:"""
 
 
 def _format_history(history: list[dict]) -> str:
@@ -33,7 +33,7 @@ def _format_history(history: list[dict]) -> str:
         elif msg["role"] == "operator":
             lines.append(f"Оператор банка: {msg['content']}")
         else:
-            lines.append(f"Дэйл: {msg['content']}")
+            lines.append(f"Дейл: {msg['content']}")
     return "\n".join(lines) if lines else "(начало диалога)"
 
 
@@ -85,7 +85,13 @@ class ChatService:
         if not rag_chunks:
             yield self._sse({"type": "status", "text": "База знаний недоступна — отвечаю без документов."})
         rag_context = format_context(rag_chunks)
-        plan = self.orchestrator.plan(message, user_id, rag_context, history)
+        slots = self.orchestrator.slots_manager.load(conv_id)
+        plan, slots = self.orchestrator.plan(
+            message, user_id, rag_context, history,
+            conversation_id=conv_id,
+            slots=slots,
+        )
+        self.orchestrator.slots_manager.save(conv_id, slots)
 
         for action in plan.actions:
             yield self._sse({"type": "action", "action": action})
@@ -102,7 +108,11 @@ class ChatService:
 
         permissions = get_permissions(user_id)
         perm_text = "\n".join(f"- {k}: {'да' if v else 'нет'}" for k, v in permissions.items())
-        system = DALE_SYSTEM_PROMPT.format(context=plan.llm_context, permissions=perm_text)
+        system = DALE_SYSTEM_PROMPT.format(
+            context=plan.llm_context,
+            permissions=perm_text,
+            query=message,
+        )
 
         extra = "Отвечай ТОЛЬКО на русском языке. Кратко, 2-4 предложения."
         if plan.actions:

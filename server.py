@@ -1,5 +1,5 @@
 """
-Точка входа сервера Дэйл — AI-помощник СберБизнес.
+Точка входа сервера Дейл — AI-помощник СберБизнес.
 
 Запуск: python server.py
 API docs: http://localhost:8000/docs
@@ -34,7 +34,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Дэйл — AI-помощник СберБизнес",
+    title="Дейл — AI-помощник СберБизнес",
     description="Умный FAQ, Deep Linking, Language Adapter, AI-Ревайндер",
     version="1.0.0",
     lifespan=lifespan,
@@ -65,7 +65,7 @@ async def health():
     return {
         "status": "ok",
         "bm25_ready": bm25_store.is_ready,
-        "assistant": "Дэйл",
+        "assistant": "Дейл",
     }
 
 

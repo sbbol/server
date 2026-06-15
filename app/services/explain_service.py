@@ -41,4 +41,4 @@ class ExplainService:
         for term, explanation in glossary.items():
             if term in lower:
                 return explanation
-        return "Это банковский термин. Выделите конкретное слово или обратитесь к Дэйлу в чате за подробным объяснением."
+        return "Это банковский термин. Выделите конкретное слово или обратитесь к Дейлу в чате за подробным объяснением."

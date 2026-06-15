@@ -1,1 +1,1 @@
-"""SberBusiness AI Assistant — серверная часть помощника Дэйл."""
+"""SberBusiness AI Assistant — серверная часть помощника Дейл."""
