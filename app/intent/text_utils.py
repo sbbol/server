@@ -120,9 +120,46 @@ def _is_balance_fact_query(normalized: str) -> bool:
     ))
 
 
+USER_DATA_MARKERS = (
+    "у меня", "мои ", "моих", "моим", "моей", "есть ли", "есть у меня", "есть активн",
+)
+USER_DATA_TOPICS = ("карт", "счет", "счёт", "счета", "черновик")
+USER_DATA_FAQ_BLOCKERS = (
+    "бывают", "что такое", "расскаж", "объясни", "чем отлича", "инструк", "порядок",
+)
+
+
+def is_user_data_question(text: str) -> bool:
+    """Запрос персональных данных пользователя — инструмент, не FAQ."""
+    normalized = normalize(text)
+
+    if contains_substring(normalized, USER_DATA_FAQ_BLOCKERS):
+        return False
+
+    has_topic = contains_substring(normalized, USER_DATA_TOPICS)
+    if not has_topic:
+        return False
+
+    if contains_substring(normalized, USER_DATA_MARKERS):
+        return True
+
+    if "какие" in normalized and "карт" in normalized and (
+        "у меня" in normalized or normalized.startswith("мои")
+    ):
+        return True
+
+    if "есть" in normalized and "активн" in normalized and "карт" in normalized:
+        return True
+
+    return False
+
+
 def is_faq_question(text: str) -> bool:
     """Инструкция / определение — нужен RAG + LLM."""
     normalized = normalize(text)
+
+    if is_user_data_question(text):
+        return False
 
     if any(cmd in normalized for cmd in FAQ_ACTION_COMMANDS):
         return False
@@ -199,16 +236,18 @@ def resolve_account(
             message="У вас нет доступных счетов.",
         )
 
-    combined = normalize(_recent_user_text(message, history))
+    explicit_in_message = bool(extract_account_hint(message) or extract_account_suffix(message))
+    search_source = message if explicit_in_message else _recent_user_text(message, history)
+    combined = normalize(search_source)
     candidates: list[dict] = []
 
-    iban = extract_account_hint(_recent_user_text(message, history))
+    iban = extract_account_hint(search_source)
     if iban:
         exact = [a for a in accounts if normalize_account(a["number"]) == iban]
         candidates = exact if exact else [a for a in accounts if account_matches(a["number"], iban)]
 
     if not candidates:
-        suffix = extract_account_suffix(_recent_user_text(message, history))
+        suffix = extract_account_suffix(search_source)
         if suffix:
             candidates = [a for a in accounts if account_suffix_matches(a["number"], suffix)]
 
@@ -247,7 +286,7 @@ def resolve_account(
     )):
         candidates = [a for a in accounts if a.get("noInfo") or a.get("balance") == "н/д"]
 
-    if not iban and not extract_account_suffix(_recent_user_text(message, history)):
+    if not iban and not extract_account_suffix(search_source):
         if not contains_substring(combined, (
             "счет", "счёт", "сч ", "iban", "by", "рубл", "byn", "rub",
             "специальн", "баланс", "реквизит", "выписк", "остаток",

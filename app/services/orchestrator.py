@@ -22,6 +22,7 @@ from app.services.conversation_slots import (
 from app.services.response_builder import (
     build_account_response,
     build_card_block_response,
+    build_cards_response,
     build_clarify_account_response,
     build_drafts_response,
     build_navigate_response,
@@ -36,6 +37,25 @@ logger = logging.getLogger(__name__)
 
 ACCOUNT_SCREENS = frozenset({"account_view", "account_requisites", "statement"})
 NAV_CONFIDENCE_THRESHOLD = 0.85
+
+DRAFT_ALIASES = {
+    "мгновен": "instant_payment",
+    "поручен": "payment_order",
+    "выписк": "statement",
+    "корпоративн": "corporate_card_form",
+}
+
+
+def _visible_accounts(accounts: list[dict]) -> list[dict]:
+    return [a for a in accounts if not a.get("hidden")]
+
+
+def _apply_aggression_prefix(text: str, decision) -> str:
+    if decision.aggression_response:
+        if text:
+            return f"{decision.aggression_response}\n\n{text}"
+        return decision.aggression_response
+    return text
 
 
 class ChatOrchestrator:
@@ -56,8 +76,11 @@ class ChatOrchestrator:
         slots = slots or ConversationSlots()
         executor = ToolExecutor(self.db, user_id)
         accounts = self.db.get_accounts(user_id)
+        aggression_strikes = 0
+        if conversation_id:
+            aggression_strikes = self.db.get_aggression_strikes(conversation_id)
 
-        decision = route_message(message, history, slots)
+        decision = route_message(message, history, slots, aggression_strikes=aggression_strikes)
         logger.info(
             "route_decision mode=%s confidence=%.2f reason=%s",
             decision.mode,
@@ -81,15 +104,26 @@ class ChatOrchestrator:
                 ), ConversationSlots(last_card_intent=slots.last_card_intent)
             slots = ConversationSlots(last_card_intent=slots.last_card_intent)
 
+        if decision.mode == "AGGRESSION":
+            if conversation_id and decision.increment_aggression_strike:
+                self.db.set_aggression_strikes(conversation_id, aggression_strikes + 1)
+            return OrchestratorResult(
+                text=decision.aggression_response,
+                actions=[],
+            ), ConversationSlots()
+
         if decision.mode == "FAQ":
             return OrchestratorResult(
                 text="",
                 actions=[],
                 use_llm=True,
                 llm_context=rag_context,
+                prefix_text=decision.aggression_response,
             ), slots
 
         if decision.mode == "ESCALATE":
+            if conversation_id:
+                self.db.set_aggression_strikes(conversation_id, 0)
             return OrchestratorResult(
                 text="",
                 actions=[{"type": "escalate", "reason": decision.reason}],
@@ -121,14 +155,17 @@ class ChatOrchestrator:
             text = self._navigate_with_data(
                 executor, screen, label, form_data, message, history, accounts,
             )
-            return OrchestratorResult(text=text, actions=executor.pending_actions), slots
+            return OrchestratorResult(
+                text=_apply_aggression_prefix(text, decision),
+                actions=executor.pending_actions,
+            ), slots
 
         intents = decision.intents
         primary = intents[0]
 
         if primary.response_mode == ResponseMode.PERMISSION:
             return OrchestratorResult(
-                text=self._run_permission(executor, primary),
+                text=_apply_aggression_prefix(self._run_permission(executor, primary), decision),
                 actions=executor.pending_actions,
             ), slots
 
@@ -136,13 +173,19 @@ class ChatOrchestrator:
             text, actions = self._run_data(
                 executor, primary, message, history, user_id, accounts, slots, conversation_id,
             )
-            return OrchestratorResult(text=text, actions=actions or executor.pending_actions), slots
+            return OrchestratorResult(
+                text=_apply_aggression_prefix(text, decision),
+                actions=actions or executor.pending_actions,
+            ), slots
 
         if primary.response_mode == ResponseMode.NAVIGATE and primary.score >= NAV_CONFIDENCE_THRESHOLD:
             text = self._run_navigate(
                 executor, primary, message, history, user_id, accounts, slots, conversation_id,
             )
-            return OrchestratorResult(text=text, actions=executor.pending_actions), slots
+            return OrchestratorResult(
+                text=_apply_aggression_prefix(text, decision),
+                actions=executor.pending_actions,
+            ), slots
 
         tool_notes = self._run_secondary_tools(
             intents[1:],
@@ -178,14 +221,11 @@ class ChatOrchestrator:
         if result.status == "found" and result.account:
             return {"account_id": result.account["id"]}
         if result.status == "ambiguous":
-            return {"clarify": build_clarify_account_response(
-                [a for a in accounts if a["id"] in {c["id"] for c in (result.candidates or [])}]
-                or accounts,
-            )}
+            return {"clarify": build_clarify_account_response(_visible_accounts(accounts))}
         if result.status == "not_found" and require_account and len(accounts) > 1:
-            return {"clarify": build_clarify_account_response(accounts)}
+            return {"clarify": build_clarify_account_response(_visible_accounts(accounts))}
         if result.status == "none" and require_account and len(accounts) > 1:
-            return {"clarify": build_clarify_account_response(accounts)}
+            return {"clarify": build_clarify_account_response(_visible_accounts(accounts))}
         return {}
 
     def _navigate_with_data(
@@ -214,7 +254,8 @@ class ChatOrchestrator:
             nav_args["params"]["newEmployee"] = "true"
 
         executor.execute("navigate_to_screen", nav_args)
-        return build_prefill_response(label, form_data, screen, accounts)
+        has_action = bool(executor.pending_actions)
+        return build_prefill_response(label, form_data, screen, accounts, has_action=has_action)
 
     def _run_permission(self, executor: ToolExecutor, intent: MatchedIntent) -> str:
         action = intent.tool_args.get("action", "")
@@ -254,9 +295,17 @@ class ChatOrchestrator:
                         "account_id": resolved.account["id"],
                     })
                 elif resolved.status == "ambiguous":
-                    text += "\n\n" + build_clarify_account_response(
-                        [a for a in accounts if a["id"] in {c["id"] for c in (resolved.candidates or [])}],
-                    )
+                    text += "\n\n" + build_clarify_account_response(_visible_accounts(accounts))
+
+            return text, executor.pending_actions
+
+        if intent.tool == "get_user_cards":
+            cards = self.db.get_cards(executor.user_id)
+            text = build_cards_response(cards)
+            executor.execute("navigate_to_screen", {
+                "screen": "card_management",
+                "label": "Управление картами",
+            })
             return text, executor.pending_actions
 
         if intent.tool == "get_user_drafts":
@@ -321,10 +370,15 @@ class ChatOrchestrator:
 
     def _pick_draft(self, drafts: list[dict], message: str) -> dict:
         lower = message.lower()
+        for alias, draft_type in DRAFT_ALIASES.items():
+            if alias in lower:
+                match = next((d for d in drafts if d.get("draft_type") == draft_type), None)
+                if match:
+                    return match
         for d in drafts:
-            if d["draft_type"] in lower or d["title"].lower()[:6] in lower:
+            if d.get("draft_type") in lower or d["title"].lower()[:6] in lower:
                 return d
-            if "выписк" in lower and d["draft_type"] == "statement":
+            if "выписк" in lower and d.get("draft_type") == "statement":
                 return d
         return drafts[0]
 
@@ -398,6 +452,7 @@ class ChatOrchestrator:
             screen=screen,
             form_data=form_data,
             accounts=accounts,
+            has_action=bool(executor.pending_actions),
         )
 
     def _run_secondary_tools(

@@ -1,8 +1,11 @@
-"""Контекстная эскалация — только явный запрос оператора банка."""
+"""Контекстная эскалация и tiered aggression."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
 
 from app.intent.text_utils import normalize
 
-# Явный запрос живого оператора банка
 OPERATOR_REQUEST_PATTERNS = (
     "оператор",
     "оператора",
@@ -20,15 +23,18 @@ OPERATOR_REQUEST_PATTERNS = (
     "связать с оператор",
 )
 
-# Контекст управления персоналом компании — НЕ эскалация
 EMPLOYEE_CONTEXT = (
     "добав", "созда", "новый", "новая", "компани", "организац",
     "кадр", "пользовател", "работник", "штат", "приглас",
 )
 
-AGGRESSIVE_PATTERNS = (
-    "идиот", "дурак", "тупой", "бесполезн", "отстой", "хрен", "чёрт", "бля",
-    "сука", "нахер", "пошёл", "убью",
+LEVEL1_PATTERNS = (
+    "тупой", "тупая", "блин", "чёрт", "черт", "дурак", "бесполезн", "отстой",
+)
+
+LEVEL2_PATTERNS = (
+    "идиот", "нахуй", "нахер", "соси", "член", "сука", "хрен", "пошёл", "убью",
+    "убить", "убью",
 )
 
 EMOTIONAL_DISTRESS_PATTERNS = (
@@ -36,9 +42,30 @@ EMOTIONAL_DISTRESS_PATTERNS = (
     "ужас", "паник", "истерик", "не выдерж", "с ума схож",
 )
 
+LEVEL1_RESPONSE = (
+    "Понимаю, что ситуация может раздражать. Давайте спокойно разберёмся — я готов помочь."
+)
+LEVEL2_RESPONSE = (
+    "Прошу воздержаться от оскорблений. Если нужна помощь живого сотрудника банка — "
+    "напишите «оператор», и я передам диалог."
+)
+
+
+@dataclass
+class AggressionAssessment:
+    level: int = 0
+    reason: str = ""
+    response_text: str = ""
+    reset_slots: bool = False
+    increment_strike: bool = False
+
 
 def is_employee_management(message: str) -> bool:
     text = normalize(message)
+
+    if "перевед" in text and "сотрудник" in text:
+        return False
+
     if not any(r in text for r in ("сотрудник", "пользовател", "работник", "кадр", "человек")):
         return False
     if any(r in text for r in EMPLOYEE_CONTEXT):
@@ -48,23 +75,66 @@ def is_employee_management(message: str) -> bool:
     return False
 
 
-def should_escalate_to_operator(message: str) -> str | None:
+def is_operator_transfer_request(message: str) -> bool:
     text = normalize(message)
 
-    if any(p in text for p in AGGRESSIVE_PATTERNS):
-        return "Агрессивное поведение пользователя"
-
-    if any(p in text for p in EMOTIONAL_DISTRESS_PATTERNS):
-        return "Эмоциональный срыв пользователя"
-
     if is_employee_management(message):
-        return None
+        return False
 
     if any(p in text for p in OPERATOR_REQUEST_PATTERNS):
+        return True
+
+    if "перевед" in text and "сотрудник" in text:
+        return True
+
+    if "человек" in text and any(p in text for p in ("банк", "оператор", "поддержк", "позов", "соедин")):
+        return True
+
+    return False
+
+
+def assess_aggression(message: str, prior_l2_strikes: int = 0) -> AggressionAssessment:
+    text = normalize(message)
+
+    if any(p in text for p in EMOTIONAL_DISTRESS_PATTERNS):
+        return AggressionAssessment(
+            level=3,
+            reason="Эмоциональный срыв пользователя",
+            reset_slots=True,
+        )
+
+    has_l2 = any(p in text for p in LEVEL2_PATTERNS)
+    if has_l2:
+        if prior_l2_strikes >= 1:
+            return AggressionAssessment(
+                level=3,
+                reason="Повторная агрессия пользователя",
+                reset_slots=True,
+            )
+        return AggressionAssessment(
+            level=2,
+            reason="Агрессивное поведение пользователя",
+            response_text=LEVEL2_RESPONSE,
+            reset_slots=True,
+            increment_strike=True,
+        )
+
+    if any(p in text for p in LEVEL1_PATTERNS):
+        return AggressionAssessment(
+            level=1,
+            reason="Раздражение пользователя",
+            response_text=LEVEL1_RESPONSE,
+        )
+
+    return AggressionAssessment()
+
+
+def should_escalate_to_operator(message: str, prior_l2_strikes: int = 0) -> str | None:
+    if is_operator_transfer_request(message):
         return "Пользователь запросил оператора"
 
-    # «позови человека» только в банковском контексте
-    if "человек" in text and any(p in text for p in ("банк", "оператор", "поддержк", "позов", "соедин")):
-        return "Пользователь запросил оператора"
+    assessment = assess_aggression(message, prior_l2_strikes)
+    if assessment.level >= 3:
+        return assessment.reason
 
     return None

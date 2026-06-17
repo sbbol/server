@@ -11,6 +11,51 @@ _EMPLOYEE_SKIP_WORDS = (
 
 _EMAIL_RE = re.compile(r"[\w.-]+@[\w.-]+\.\w+")
 
+_RECIPIENT_BLACKLIST = frozenset({
+    "за", "на", "по", "не", "для", "от", "до", "из", "при", "без", "под",
+})
+
+_PAYMENT_CONTEXT_WORDS = (
+    "плат", "перевод", "перевед", "оплат", "получател", "контрагент", "сумм", "руб", "byn",
+    "поручен", "мгновен", "назначен", "счет", "счёт",
+)
+
+_POSITION_SUFFIXES = ("ом", "ем", "ером", "истом", "ором", "ником", "телем", "щим", "ым")
+
+
+def _has_payment_context(text: str) -> bool:
+    if any(w in text for w in _PAYMENT_CONTEXT_WORDS):
+        return True
+    if re.search(r"(?:на|получател\w*)\s+[a-z0-9]{3,}", text):
+        return True
+    return False
+
+
+def _sanitize_recipient(value: str) -> str | None:
+    cleaned = value.strip()
+    if len(cleaned) < 3:
+        return None
+    if cleaned.lower() in _RECIPIENT_BLACKLIST:
+        return None
+    return cleaned
+
+
+def _normalize_position(raw: str) -> str:
+    pos = raw.strip().lower().rstrip(".")
+    for suffix in _POSITION_SUFFIXES:
+        if pos.endswith(suffix) and len(pos) > len(suffix) + 2:
+            pos = pos[: -len(suffix)]
+            break
+    pos = pos.replace("ё", "е")
+    known = {
+        "режиссер": "Режиссёр",
+        "уборщик": "Уборщик",
+        "директор": "Директор",
+    }
+    if pos in known:
+        return known[pos]
+    return pos.capitalize()
+
 
 def _extract_quoted(text: str) -> str | None:
     m = re.search(r'["«]([^"»]{2,80})["»]', text)
@@ -30,6 +75,9 @@ def extract_payment_hints(message: str) -> dict[str, str]:
     raw = message
     text = normalize(message)
     hints: dict[str, str] = {}
+
+    if not _has_payment_context(text):
+        return hints
 
     amount = re.search(
         r"сумм\w*\s*(\d[\d\s]*(?:[.,]\d{1,2})?)\s*(?:руб|р\b|byn|бел\s*руб)?",
@@ -51,7 +99,6 @@ def extract_payment_hints(message: str) -> dict[str, str]:
 
     acct_patterns = [
         r"(?:на\s+)?счет\w*\s+([a-z0-9]{3,20})",
-        r"на\s+([a-z0-9]{3,20})\b",
         r"получател\w*\s+([a-z0-9]{3,20})",
         r"номер\s+счет\w*\s+[\"«]?([a-z0-9]{4,20})",
     ]
@@ -61,24 +108,45 @@ def extract_payment_hints(message: str) -> dict[str, str]:
             candidate = acct.group(1).upper()
             if candidate.isdigit() and len(candidate) == 4:
                 continue
-            if not candidate.isdigit() or len(candidate) >= 4:
-                hints["recipient"] = candidate
+            sanitized = _sanitize_recipient(candidate)
+            if sanitized:
+                hints["recipient"] = sanitized
                 break
+
+    on_account = re.search(r"на\s+([a-z0-9]{3,20})\b", text)
+    if on_account and "recipient" not in hints:
+        candidate = on_account.group(1).upper()
+        sanitized = _sanitize_recipient(candidate)
+        if sanitized and not candidate.isdigit():
+            hints["recipient"] = sanitized
 
     quoted = _extract_quoted(raw)
     if quoted and not hints.get("recipient"):
         if re.match(r"^[a-z0-9]{4,}$", quoted, re.I):
-            hints["recipient"] = quoted.upper()
+            sanitized = _sanitize_recipient(quoted.upper())
+            if sanitized:
+                hints["recipient"] = sanitized
 
     recipient = re.search(
-        r"(?:контрагент\w*\s+|получател\w*\s+|оплат\w+\s+)([а-яa-z][а-яa-z]{1,20})\b",
+        r"(?:контрагент\w*\s+|получател\w*\s+|оплат\w+\s+)([а-яa-z][а-яa-z]{2,20})\b",
         text,
     )
     if recipient and "recipient" not in hints:
         name = recipient.group(1).strip()
         if name not in ("счет", "счета", "счёт", "руб", "рублей") and not name.isdigit():
             if not _looks_like_amount(name):
-                hints["recipient"] = name.title()
+                sanitized = _sanitize_recipient(name.title())
+                if sanitized:
+                    hints["recipient"] = sanitized
+
+    corr_recipient = re.search(
+        r"(?:нет|не\s+тот|другой|исправь|именно|а\s+не)\s*,?\s*получател\w*\s+([a-z0-9]{3,20})",
+        text,
+    )
+    if corr_recipient:
+        sanitized = _sanitize_recipient(corr_recipient.group(1).upper())
+        if sanitized:
+            hints["recipient"] = sanitized
 
     name_after = re.search(
         r"(?<![а-яa-z])(\d[\d\s]*(?:[.,]\d{1,2})?\s*(?:руб|р\b|byn)?)\s+([а-яa-z]{2,20})(?:у|а|е|ю|ом|ем)?\b",
@@ -87,7 +155,9 @@ def extract_payment_hints(message: str) -> dict[str, str]:
     if name_after and "recipient" not in hints:
         name = name_after.group(2)
         if name not in ("рублей", "руб", "контрагенту", "контрагента", "контрагент"):
-            hints["recipient"] = name.title()
+            sanitized = _sanitize_recipient(name.title())
+            if sanitized:
+                hints["recipient"] = sanitized
 
     purpose = re.search(r"назначен\w*\s*[-–:]\s*([^.\n]{1,80})", raw, re.I)
     if purpose:
@@ -164,14 +234,34 @@ def extract_employee_hints(message: str) -> dict[str, str]:
             hints["position"] = fio_match.group(4).strip().capitalize()
 
     pos_match = re.search(
-        r"(?:должност\w*\s*[-–:]?\s*|,\s*)([а-яa-z][а-яa-z\s-]{2,40})",
+        r"работает\s+(?:\w+\s+){0,4}(\w+(?:ом|ем|ером|истом|ором|ником|телем|щим|ым))",
         raw,
         re.I,
     )
     if pos_match:
-        pos = pos_match.group(1).strip().rstrip(".")
-        if pos.lower() not in ("email", "телефон"):
-            hints["position"] = pos.capitalize() if pos.islower() else pos
+        hints["position"] = _normalize_position(pos_match.group(1))
+
+    if "position" not in hints:
+        pos_match = re.search(
+            r"должност\w*\s*[-–:]?\s*([а-яa-z][а-яa-z\s-]{2,40})",
+            raw,
+            re.I,
+        )
+        if pos_match:
+            pos = pos_match.group(1).strip().rstrip(".")
+            if pos.lower() not in ("email", "телефон"):
+                hints["position"] = _normalize_position(pos)
+
+    if "position" not in hints:
+        pos_match = re.search(
+            r"(?:должност\w*\s*[-–:]?\s*|,\s*)([а-яa-z][а-яa-z\s-]{2,40})",
+            raw,
+            re.I,
+        )
+        if pos_match:
+            pos = pos_match.group(1).strip().rstrip(".")
+            if pos.lower() not in ("email", "телефон"):
+                hints["position"] = _normalize_position(pos)
 
     name_match = re.search(
         r"сотрудник\w*\s+([A-Za-zА-Яа-яё]+)\s+([A-Za-zА-Яа-яё]+)",
@@ -246,7 +336,7 @@ def extract_form_hints(message: str, screen: str) -> dict[str, str]:
     return {}
 
 
-def merge_hints(*dicts: dict[str, str]) -> dict[str, str]:
+def merge_hints(*dicts: dict[str, str], force_overwrite: bool = False) -> dict[str, str]:
     merged: dict[str, str] = {}
     for d in dicts:
         for k, v in d.items():
@@ -254,5 +344,8 @@ def merge_hints(*dicts: dict[str, str]) -> dict[str, str]:
                 continue
             if k == "recipient" and _looks_like_amount(v):
                 continue
-            merged[k] = v
+            if force_overwrite or k not in merged:
+                merged[k] = v
+            else:
+                merged[k] = v
     return merged

@@ -7,13 +7,14 @@ from unittest.mock import MagicMock
 for _mod in ("sentence_transformers", "qdrant_client", "chonkie", "rank_bm25"):
     sys.modules.setdefault(_mod, MagicMock())
 
+from app.intent.classifier import classify
 from app.intent.router import route_message
-from app.services.conversation_slots import ConversationSlots
+from app.services.conversation_slots import ConversationSlots, is_correction_message, merge_message_hints
 
 
 class IntentRouterTests(unittest.TestCase):
-    def _route(self, message: str, slots: ConversationSlots | None = None):
-        return route_message(message, history=[], slots=slots or ConversationSlots())
+    def _route(self, message: str, slots: ConversationSlots | None = None, strikes: int = 0):
+        return route_message(message, history=[], slots=slots or ConversationSlots(), aggression_strikes=strikes)
 
     def test_lost_ecp_is_faq(self) -> None:
         decision = self._route("Я потерял ЭЦП")
@@ -35,6 +36,47 @@ class IntentRouterTests(unittest.TestCase):
     def test_card_types_question_is_faq(self) -> None:
         decision = self._route("Какие бывают карты?")
         self.assertEqual(decision.mode, "FAQ")
+
+    def test_user_cards_is_tool(self) -> None:
+        decision = self._route("Какие карты у меня есть?")
+        self.assertEqual(decision.mode, "TOOL")
+        self.assertTrue(decision.intents)
+        self.assertEqual(decision.intents[0].intent_id, "list_user_cards")
+
+    def test_active_cards_is_tool(self) -> None:
+        decision = self._route("Есть активные карты?")
+        self.assertEqual(decision.mode, "TOOL")
+        self.assertEqual(decision.intents[0].intent_id, "list_user_cards")
+
+    def test_nav_cards_screen(self) -> None:
+        decision = self._route("Можешь перейти на экран с картами?")
+        self.assertEqual(decision.mode, "TOOL")
+        self.assertEqual(decision.intents[0].intent_id, "nav_cards_screen")
+
+    def test_correction_overwrites_recipient(self) -> None:
+        self.assertTrue(is_correction_message("Нет, получатель ABC333"))
+        slots = ConversationSlots(
+            active_intent="payment_create",
+            target_screen="instant_payment",
+            form_data={"recipient": "За", "amount": "100 RUB"},
+        )
+        slots = merge_message_hints(slots, "Нет, получатель ABC333", "instant_payment")
+        self.assertEqual(slots.form_data.get("recipient"), "ABC333")
+
+    def test_block_card_not_cancel(self) -> None:
+        decision = self._route("Мне нужно заблокировать карту")
+        self.assertNotEqual(decision.mode, "RESET_SLOTS")
+        self.assertEqual(decision.mode, "TOOL")
+        self.assertEqual(decision.intents[0].intent_id, "block_card")
+
+    def test_transfer_to_employee_escalates(self) -> None:
+        decision = self._route("переведи на сотрудника")
+        self.assertEqual(decision.mode, "ESCALATE")
+
+    def test_sexual_aggression_warns_not_payment(self) -> None:
+        decision = self._route("соси член")
+        self.assertIn(decision.mode, ("AGGRESSION", "ESCALATE"))
+        self.assertNotEqual(decision.mode, "TOOL")
 
     def test_payment_slots_topic_shift_to_ecp(self) -> None:
         slots = ConversationSlots(
@@ -62,8 +104,12 @@ class IntentRouterTests(unittest.TestCase):
         decision = self._route("Позови оператора")
         self.assertEqual(decision.mode, "ESCALATE")
 
-    def test_aggressive_message_escalates(self) -> None:
+    def test_aggressive_message_warns(self) -> None:
         decision = self._route("Ты идиот")
+        self.assertEqual(decision.mode, "AGGRESSION")
+
+    def test_repeat_aggression_escalates(self) -> None:
+        decision = self._route("Ты идиот", strikes=1)
         self.assertEqual(decision.mode, "ESCALATE")
 
 

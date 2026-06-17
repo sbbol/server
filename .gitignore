@@ -1,0 +1,23 @@
+__pycache__/
+.venv/
+
+# Runtime / generated
+storage/*.db
+storage/*.pkl
+*.log
+debug-*.log
+
+# Python
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Env
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/

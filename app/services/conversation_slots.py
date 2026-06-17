@@ -71,6 +71,19 @@ _CANCEL_PHRASES = (
     "отмен", "стоп", "не буду", "передумал",
 )
 
+_CORRECTION_TRIGGERS = (
+    "нет", "не тот", "другой", "исправь", "именно", "а не",
+)
+
+
+def is_correction_message(message: str) -> bool:
+    text = normalize(message)
+    if len(text) > 120:
+        return False
+    if text.startswith("нет,") or text.startswith("нет "):
+        return True
+    return any(t in text for t in _CORRECTION_TRIGGERS)
+
 
 def is_cancel_message(message: str) -> bool:
     text = normalize(message)
@@ -78,7 +91,15 @@ def is_cancel_message(message: str) -> bool:
         return False
     if text in _CANCEL_PHRASES:
         return True
-    return any(p in text for p in _CANCEL_PHRASES if len(p) > 3)
+    words = text.split()
+    padded = f" {text} "
+    for phrase in _CANCEL_PHRASES:
+        if len(phrase) <= 3:
+            if phrase in words:
+                return True
+        elif f" {phrase} " in padded or text.startswith(phrase + " ") or text.endswith(" " + phrase):
+            return True
+    return False
 
 
 def _intent_domain(intent_id: str) -> str | None:
@@ -176,9 +197,17 @@ def should_inherit_intent(message: str, slots: ConversationSlots) -> bool:
 is_follow_up_message = should_inherit_intent
 
 
-def merge_form_data(slots: ConversationSlots, hints: dict[str, str]) -> ConversationSlots:
+def merge_form_data(
+    slots: ConversationSlots,
+    hints: dict[str, str],
+    *,
+    correction: bool = False,
+) -> ConversationSlots:
     if hints:
-        slots.form_data = merge_hints(slots.form_data, hints)
+        if correction:
+            slots.form_data = merge_hints(slots.form_data, hints, force_overwrite=True)
+        else:
+            slots.form_data = merge_hints(slots.form_data, hints)
     return slots
 
 
@@ -189,7 +218,10 @@ def merge_message_hints(
     history: list[dict] | None = None,
 ) -> ConversationSlots:
     target = screen or slots.target_screen or "instant_payment"
+    correction = is_correction_message(message)
     hints = extract_form_hints(message, target)
+    if correction:
+        return merge_form_data(slots, hints, correction=True)
     if history:
         hints = merge_hints_from_history(target, message, history, hints)
     return merge_form_data(slots, hints)

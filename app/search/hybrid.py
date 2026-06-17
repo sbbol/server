@@ -27,6 +27,12 @@ QUERY_EXPANSIONS: dict[str, tuple[str, ...]] = {
     "потеря": ("утеря", "поломка"),
 }
 
+DOC_TYPE_BOOST: dict[str, float] = {
+    "faq": 3.0,
+    "procedure": 1.5,
+    "product": 0.3,
+}
+
 
 def expand_query(query: str) -> str:
     normalized = query.lower()
@@ -55,6 +61,13 @@ def _filter_irrelevant_chunks(query: str, chunks: list[dict]) -> list[dict]:
             continue
         filtered.append(chunk)
     return filtered or chunks
+
+
+def _is_product_only(chunks: list[dict]) -> bool:
+    if not chunks:
+        return False
+    top = chunks[: min(3, len(chunks))]
+    return all(c.get("doc_type") == "product" for c in top)
 
 
 def _get_embedder() -> SentenceTransformer:
@@ -100,6 +113,7 @@ def _vector_search(query: str, top_k: int) -> list[dict]:
             "source": payload.get("source", ""),
             "title": payload.get("title", ""),
             "chunk_index": payload.get("chunk_index", 0),
+            "doc_type": payload.get("doc_type", "product"),
             "score": float(point.score) if point.score else 0.0,
             "rank": rank,
         })
@@ -107,14 +121,16 @@ def _vector_search(query: str, top_k: int) -> list[dict]:
 
 
 def _rrf_fusion(vector_hits: list[dict], bm25_hits: list[dict], top_k: int) -> list[dict]:
-    """Reciprocal Rank Fusion."""
+    """Reciprocal Rank Fusion с boost по doc_type."""
     scores: dict[str, float] = {}
     chunks: dict[str, dict] = {}
 
     for hits in (vector_hits, bm25_hits):
         for item in hits:
             cid = item["id"]
-            rrf_score = 1.0 / (RRF_K + item["rank"] + 1)
+            doc_type = item.get("doc_type", "product")
+            boost = DOC_TYPE_BOOST.get(doc_type, 1.0)
+            rrf_score = boost * (1.0 / (RRF_K + item["rank"] + 1))
             scores[cid] = scores.get(cid, 0.0) + rrf_score
             if cid not in chunks:
                 chunks[cid] = item
@@ -141,7 +157,16 @@ def hybrid_search(query: str, top_k: int = HYBRID_TOP_K) -> list[dict]:
         logger.warning("Hybrid search returned no results for query: %s", query[:80])
         return []
 
-    return _filter_irrelevant_chunks(query, results)
+    results = _filter_irrelevant_chunks(query, results)
+
+    if _is_product_only(results):
+        logger.warning(
+            "Top chunks are all product type for FAQ query: %s — treating as no knowledge",
+            query[:80],
+        )
+        return []
+
+    return results
 
 
 def format_context(chunks: list[dict]) -> str:
@@ -151,6 +176,8 @@ def format_context(chunks: list[dict]) -> str:
     for i, chunk in enumerate(chunks, 1):
         title = chunk.get("title", "Документ")
         source = chunk.get("source", "")
+        doc_type = chunk.get("doc_type", "")
         text = chunk.get("text", chunk.get("content", ""))
-        parts.append(f"[{i}] {title}\nИсточник: {source}\n{text}")
+        type_label = f" [{doc_type}]" if doc_type else ""
+        parts.append(f"[{i}] {title}{type_label}\nИсточник: {source}\n{text}")
     return "\n\n---\n\n".join(parts)

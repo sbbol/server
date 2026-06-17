@@ -50,6 +50,14 @@ class FormHintsTests(unittest.TestCase):
         self.assertTrue(is_tariff_faq_question("расскажи про тарифы"))
         self.assertFalse(is_tariff_faq_question("сменить тариф на премиум"))
 
+    def test_position_from_works_as(self) -> None:
+        hints = extract_employee_hints("он работает у нас режиссером")
+        self.assertEqual(hints.get("position"), "Режиссёр")
+
+    def test_recipient_not_za_from_payment_order(self) -> None:
+        hints = extract_payment_hints("платежное поручение сделать")
+        self.assertNotIn("recipient", hints)
+
 
 if __name__ == "__main__":
     unittest.main()

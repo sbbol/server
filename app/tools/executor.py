@@ -94,6 +94,13 @@ class ToolExecutor:
         lines = [f"• {d['title']}" for d in drafts]
         return "Незавершённые черновики:\n" + "\n".join(lines)
 
+    def _tool_get_user_cards(self, _args: dict) -> str:
+        cards = self.db.get_cards(self.user_id)
+        if not cards:
+            return "У пользователя нет карт."
+        lines = [f"• {c['label']} — {c['name']} ({c['status']})" for c in cards]
+        return "Карты пользователя:\n" + "\n".join(lines)
+
     def _tool_escalate_to_operator(self, args: dict) -> str:
         self.pending_actions.append({
             "type": "escalate",

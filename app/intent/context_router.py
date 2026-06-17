@@ -30,6 +30,9 @@ def infer_target_screen(message: str, history: list[dict], slots: ConversationSl
 
     text = _recent_text(history, message)
 
+    if "карт" in text and any(w in text for w in ("экран", "перейти", "переход", "покаж", "страниц", "открой")):
+        return "card_management"
+
     if "реквизит" in text:
         return "account_requisites"
 

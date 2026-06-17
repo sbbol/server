@@ -28,3 +28,4 @@ class OrchestratorResult:
     actions: list[dict] = field(default_factory=list)
     use_llm: bool = False
     llm_context: str = ""
+    prefix_text: str = ""

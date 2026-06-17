@@ -153,6 +153,30 @@ class Database:
                 (json.dumps(meta, ensure_ascii=False), _now(), conversation_id),
             )
 
+    def get_aggression_strikes(self, conversation_id: str) -> int:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT metadata FROM conversations WHERE id = ?",
+                (conversation_id,),
+            ).fetchone()
+            if not row:
+                return 0
+            meta = json.loads(row["metadata"] or "{}")
+            return int(meta.get("aggression_strikes", 0))
+
+    def set_aggression_strikes(self, conversation_id: str, strikes: int) -> None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT metadata FROM conversations WHERE id = ?",
+                (conversation_id,),
+            ).fetchone()
+            meta = json.loads(row["metadata"] or "{}") if row else {}
+            meta["aggression_strikes"] = strikes
+            conn.execute(
+                "UPDATE conversations SET metadata = ?, updated_at = ? WHERE id = ?",
+                (json.dumps(meta, ensure_ascii=False), _now(), conversation_id),
+            )
+
     # --- Conversations ---
 
     def get_or_create_conversation(self, user_id: str, conversation_id: str | None) -> str:

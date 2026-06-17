@@ -2,6 +2,23 @@
 
 from app.intent.text_utils import account_matches, extract_account_hint
 
+PERIOD_LABELS = {
+    "yesterday": "за вчера",
+    "today": "за сегодня",
+    "last_month": "за месяц",
+    "last_week": "за неделю",
+    "last_quarter": "за квартал",
+}
+
+PAYMENT_DATE_LABELS = {
+    "yesterday": "за вчера",
+    "today": "за сегодня",
+}
+
+UNSUPPORTED_FIELD_LABELS = {
+    "address": "адрес",
+}
+
 GUIDED_PROMPTS = {
     "statement": "Укажите счёт и период (например: «за вчера по всем счетам»), или нажмите кнопку.",
     "instant_payment": "Напишите получателя, сумму и назначение — заполню форму автоматически.",
@@ -33,10 +50,21 @@ def _format_account_suffix(number: str) -> str:
     return f"…{digits[-4:]}" if len(digits) >= 4 else number
 
 
+def _format_field_value(key: str, val: str) -> str:
+    if key == "period":
+        return PERIOD_LABELS.get(val, val)
+    if key == "payment_date":
+        return PAYMENT_DATE_LABELS.get(val, val)
+    if key in UNSUPPORTED_FIELD_LABELS:
+        return f"{UNSUPPORTED_FIELD_LABELS[key]} (поле пока не заполняется автоматически)"
+    return val
+
+
 def _describe_form_fields(form_data: dict[str, str], accounts: list[dict] | None = None) -> str:
     parts: list[str] = []
     for key, val in form_data.items():
         label = FIELD_LABELS.get(key, key)
+        display_val = _format_field_value(key, val)
         if key == "account" and accounts:
             acc = next((a for a in accounts if a["id"] == val), None)
             if acc:
@@ -45,7 +73,7 @@ def _describe_form_fields(form_data: dict[str, str], accounts: list[dict] | None
             if val == "all":
                 parts.append(f"{label}: все счета")
                 continue
-        parts.append(f"{label}: {val}")
+        parts.append(f"{label}: {display_val}")
     return ", ".join(parts)
 
 
@@ -129,16 +157,26 @@ def build_navigate_response(
     screen: str = "",
     form_data: dict[str, str] | None = None,
     accounts: list[dict] | None = None,
+    has_action: bool = True,
 ) -> str:
     if has_prefill and form_data:
         fields = _describe_form_fields(form_data, accounts)
-        return f"Подготовил данные ({fields}). Нажмите «{label}» — поля заполнятся автоматически."
+        if has_action:
+            return f"Подготовил данные ({fields}). Нажмите «{label}» — поля заполнятся автоматически."
+        return f"Подготовил данные ({fields})."
     if has_prefill:
         fields = _describe_prefill(screen)
-        return f"Подготовил данные ({fields}). Нажмите «{label}» — поля заполнятся автоматически."
+        if has_action:
+            return f"Подготовил данные ({fields}). Нажмите «{label}» — поля заполнятся автоматически."
+        return f"Подготовил данные ({fields})."
     if guided and screen in GUIDED_PROMPTS:
-        return f"{GUIDED_PROMPTS[screen]} Кнопка: «{label}»."
-    return f"Конечно, помогу! Нажмите кнопку «{label}» ниже."
+        prompt = GUIDED_PROMPTS[screen]
+        if has_action:
+            return f"{prompt} Кнопка: «{label}»."
+        return prompt
+    if has_action:
+        return f"Конечно, помогу! Нажмите кнопку «{label}» ниже."
+    return "Конечно, помогу! Подскажу, как это сделать в системе."
 
 
 def build_prefill_response(
@@ -146,12 +184,15 @@ def build_prefill_response(
     form_data: dict[str, str],
     screen: str,
     accounts: list[dict] | None = None,
+    has_action: bool = True,
 ) -> str:
     fields = _describe_form_fields(form_data, accounts)
-    return (
-        f"Записал: {fields}. "
-        f"Нажмите «{label}» — открою форму с заполненными полями."
-    )
+    if has_action:
+        return (
+            f"Записал: {fields}. "
+            f"Нажмите «{label}» — открою форму с заполненными полями."
+        )
+    return f"Записал: {fields}."
 
 
 def _describe_prefill(screen: str) -> str:
@@ -162,10 +203,6 @@ def _describe_prefill(screen: str) -> str:
         "employees": "ФИО, должность, телефон",
     }
     return names.get(screen, "данные формы")
-
-
-def build_permission_response(tool_text: str) -> str:
-    return tool_text
 
 
 def build_card_block_response(card_id: str | None, cards: list[dict]) -> str:
@@ -193,3 +230,20 @@ def build_card_block_response(card_id: str | None, cards: list[dict]) -> str:
 
     lines.append("\nНапишите номер карты (например, 4521) или нажмите кнопку нужной карты.")
     return "\n".join(lines)
+
+
+def build_cards_response(cards: list[dict]) -> str:
+    if not cards:
+        return "У вас пока нет банковских карт."
+
+    lines = ["Ваши карты:"]
+    for card in cards:
+        status = "активна" if card["status"] == "active" else "заблокирована"
+        lines.append(f"• {card['label']} — {card['name']} ({status})")
+    lines.append("\nНажмите кнопку ниже, чтобы перейти к управлению картами.")
+    return "\n".join(lines)
+
+
+def build_permission_response(tool_text: str) -> str:
+    return tool_text
+

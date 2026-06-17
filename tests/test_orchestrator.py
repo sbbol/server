@@ -162,9 +162,9 @@ class OrchestratorPlanTests(unittest.TestCase):
         decision = route_message("Позови оператора")
         self.assertEqual(decision.mode, "ESCALATE")
 
-    def test_router_aggressive_escalates(self) -> None:
+    def test_router_aggressive_warns(self) -> None:
         decision = route_message("Ты идиот")
-        self.assertEqual(decision.mode, "ESCALATE")
+        self.assertEqual(decision.mode, "AGGRESSION")
 
 
 if __name__ == "__main__":

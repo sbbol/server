@@ -56,7 +56,8 @@ class ChatService:
 
         self.db.add_message(conv_id, "user", message)
 
-        escalation_reason = should_escalate_to_operator(message)
+        aggression_strikes = self.db.get_aggression_strikes(conv_id)
+        escalation_reason = should_escalate_to_operator(message, aggression_strikes)
         if escalation_reason:
             yield self._sse({"type": "status", "text": LOADING_PHRASES[2]})
             self.db.escalate_conversation(conv_id)
@@ -117,7 +118,7 @@ class ChatService:
             query=message,
         )
 
-        extra = "Отвечай ТОЛЬКО на русском языке. Кратко, 2-4 предложения."
+        extra = "Отвечай ТОЛЬКО на русском языке. Кратко, 2-4 предложения. Ты — Дейл (мужской род): «готов», «записал», «помогу» — никогда «готова», «помогла»."
         if plan.actions:
             extra += " Кнопки навигации уже показаны — не создавай ссылки и markdown."
 
@@ -148,6 +149,10 @@ class ChatService:
             return
 
         full_response = sanitize_llm_output(raw_response, has_nav_button=has_nav)
+        if plan.prefix_text and full_response:
+            full_response = f"{plan.prefix_text} {full_response}"
+        elif plan.prefix_text:
+            full_response = plan.prefix_text
         yield self._sse({"type": "replace", "text": full_response})
         self.db.add_message(conv_id, "assistant", full_response, {"actions": plan.actions})
         yield "data: [DONE]\n\n"
